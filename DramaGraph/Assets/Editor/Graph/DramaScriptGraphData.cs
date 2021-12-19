@@ -14,6 +14,13 @@ public class DramaScriptGraphData : ISerializationCallbackReceiver
 
     private List<DramaGraphNodeData> m_nodeDataList = new List<DramaGraphNodeData>();
 
+    public DramaGraphObject owner;
+
+    public List<DramaGraphNodeData> nodeDataList
+    {
+        get { return m_nodeDataList; }
+    }
+
     public void OnBeforeSerialize()
     {
         m_serializableNodeDataList = SerializationUtility.Serialize(m_nodeDataList);

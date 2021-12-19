@@ -24,8 +24,7 @@ public class DramaScriptMainBoardEdgeConnectorListener : IEdgeConnectorListener
                 draggedPort = edge.input.edgeConnector.edgeDragHelper.draggedPort;
             }
         }
-        //m_searchWindowProvider.connectedPort = draggedPort;
-        m_searchWindowProvider.Open(GUIUtility.GUIToScreenPoint(Event.current.mousePosition));
+        m_searchWindowProvider.OpenAndConnectPort(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), draggedPort);
     }
 
     public void OnDrop(GraphView graphView, Edge edge)

@@ -32,14 +32,14 @@ public class DramaScriptEditWindow : EditorWindow
             return false;
 
         var foundWindow = false;
-        foreach (var w in Resources.FindObjectsOfTypeAll<DramaScriptEditWindow>())
-        {
-            if (w.assetGuid == guid)
-            {
-                foundWindow = true;
-                w.Focus();
-            }
-        }
+        //foreach (var w in Resources.FindObjectsOfTypeAll<DramaScriptEditWindow>())
+        //{
+        //    if (w.assetGuid == guid)
+        //    {
+        //        foundWindow = true;
+        //        w.Focus();
+        //    }
+        //}
 
         if (!foundWindow)
         {
@@ -70,10 +70,10 @@ public class DramaScriptEditWindow : EditorWindow
     {
         try
         {
-            if (m_assetGuid == assetGuid)
-            {
-                return;
-            }
+            //if (m_assetGuid == assetGuid)
+            //{
+            //    return;
+            //}
             Object asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(assetGuid));
             if (asset == null)
             {
@@ -91,9 +91,15 @@ public class DramaScriptEditWindow : EditorWindow
             }
             m_assetGuid = assetGuid;
             string textGraph = File.ReadAllText(path, Encoding.UTF8);
-            DramaScriptGraphData graphData = JsonUtility.FromJson<DramaScriptGraphData>(textGraph);
+            DramaGraphObject graphObject = CreateInstance<DramaGraphObject>();
+            graphObject.hideFlags = HideFlags.HideAndDontSave;
+            graphObject.SetGraphData(JsonUtility.FromJson<DramaScriptGraphData>(textGraph));
+            //graphObject.graphData.messageManager = messageManager;
+            //graphObject.graphData.OnEnable();
+            //graphObject.graphData.ValidateGraph(););
 
-            m_view = new DramaScriptMainBoardGraphView(this, graphData);
+            m_view = new DramaScriptMainBoardGraphView(this, graphObject.graphData);
+            m_view.actionOnSaveGraphData = OnSaveGraphData;
             rootVisualElement.Add(m_view);
             titleContent = new GUIContent(asset.name.Split('/').Last());
             Repaint();
@@ -102,5 +108,15 @@ public class DramaScriptEditWindow : EditorWindow
         {
             throw;
         }
+    }
+
+    private void OnSaveGraphData(DramaScriptGraphData graphData)
+    {
+        var path = AssetDatabase.GUIDToAssetPath(m_assetGuid);
+        if (string.IsNullOrEmpty(path))
+            return;
+        if (FileUtility.WriteToDisk(path, graphData))
+            AssetDatabase.ImportAsset(path);
+        //graphObject.isDirty = false;
     }
 }

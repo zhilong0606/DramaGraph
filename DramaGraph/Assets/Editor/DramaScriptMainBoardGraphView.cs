@@ -12,7 +12,10 @@ public class DramaScriptMainBoardGraphView : GraphView
 {
     private DramaScriptGraphData m_graphData;
     private DramaScriptMainBoardEdgeConnectorListener m_edgeConnectorListener;
+    private DramaScriptMainBoardSearchWindowProvider m_searchWindowProvider;
     private EditorWindow m_editorWindow;
+
+    public Action<DramaScriptGraphData> actionOnSaveGraphData;
 
     public DramaScriptMainBoardGraphView(EditorWindow editorWindow, DramaScriptGraphData graphData)
     {
@@ -24,23 +27,62 @@ public class DramaScriptMainBoardGraphView : GraphView
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
 
-        DramaScriptMainBoardSearchWindowProvider searchWindowProvider = ScriptableObject.CreateInstance<DramaScriptMainBoardSearchWindowProvider>();
-        searchWindowProvider.funcOnSelectEntry = OnMenuWindowProviderSelectEntry;
+        m_searchWindowProvider = ScriptableObject.CreateInstance<DramaScriptMainBoardSearchWindowProvider>();
+        m_searchWindowProvider.funcOnSelectEntry = OnMenuWindowProviderSelectEntry;
 
-        nodeCreationRequest += context => { searchWindowProvider.Open(context.screenMousePosition); };
+        nodeCreationRequest += context => { m_searchWindowProvider.Open(context.screenMousePosition); };
 
-        m_edgeConnectorListener = new DramaScriptMainBoardEdgeConnectorListener(searchWindowProvider);
+        m_edgeConnectorListener = new DramaScriptMainBoardEdgeConnectorListener(m_searchWindowProvider);
+
+        foreach (var nodeData in m_graphData.nodeDataList)
+        {
+            Type type = null;
+            if (nodeData.GetType() == typeof(DramaGraphNodeDataFloat))
+            {
+                type = typeof(DramaScriptFloatNodeView);
+            }
+            CreateNode(type, nodeData.pos);
+        }
+
+
+        var toolbar = new IMGUIContainer(() =>
+        {
+            GUILayout.BeginHorizontal(EditorStyles.toolbar);
+            if (GUILayout.Button("Save Asset", EditorStyles.toolbarButton))
+            {
+                if (actionOnSaveGraphData != null)
+                {
+                    actionOnSaveGraphData(m_graphData);
+                }
+            }
+            GUILayout.EndHorizontal();
+        });
+        Add(toolbar);
     }
 
-    private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
+    private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, Port connectPort)
     {
         Type type = searchTreeEntry.userData as Type;
-        Node node = Activator.CreateInstance(type) as Node;
-
         var windowRoot = m_editorWindow.rootVisualElement;
         var windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent, context.screenMousePosition - m_editorWindow.position.position);
-        node.SetPosition(new Rect(contentViewContainer.WorldToLocal(windowMousePosition), Vector2.zero));
-        for (int i=0;i<node.inputContainer.childCount;++i)
+
+        DramaGraphNodeData node = null;
+        if (type == typeof(DramaScriptFloatNodeView))
+        {
+            node = new DramaGraphNodeDataFloat();
+        }
+        node.pos = contentViewContainer.WorldToLocal(windowMousePosition);
+        m_graphData.nodeDataList.Add(node);
+
+        CreateNode(type, node.pos);
+        return true;
+    }
+
+    private void CreateNode(Type type, Vector2 pos)
+    {
+        Node node = Activator.CreateInstance(type) as Node;
+        node.SetPosition(new Rect(pos, Vector2.zero));
+        for (int i = 0; i < node.inputContainer.childCount; ++i)
         {
             Port inputPort = node.inputContainer[i] as Port;
             if (inputPort != null)
@@ -63,8 +105,6 @@ public class DramaScriptMainBoardGraphView : GraphView
             }
         }
         this.AddElement(node);
-        return true;
-
     }
 
     public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

@@ -6,11 +6,6 @@ using UnityEngine;
 [Serializable]
 public class DramaGraphNodeData
 {
-    [SerializeField]
-    private int m_id;
-
-    public DramaGraphNodeData(int id)
-    {
-        m_id = id;
-    }
+    public int id;
+    public Vector2 pos;
 }

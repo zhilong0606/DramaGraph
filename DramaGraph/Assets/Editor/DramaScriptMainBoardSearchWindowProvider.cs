@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class DramaScriptMainBoardSearchWindowProvider : ScriptableObject, ISearchWindowProvider
 {
-    public Func<SearchTreeEntry, SearchWindowContext, bool> funcOnSelectEntry;
+    public Func<SearchTreeEntry, SearchWindowContext, Port, bool> funcOnSelectEntry;
+
+    private Port m_connectPort;
 
     public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
     {
@@ -22,7 +24,7 @@ public class DramaScriptMainBoardSearchWindowProvider : ScriptableObject, ISearc
     {
         if (funcOnSelectEntry != null)
         {
-            return funcOnSelectEntry(searchTreeEntry, context);
+            return funcOnSelectEntry(searchTreeEntry, context, m_connectPort);
         }
         return false;
     }
@@ -30,5 +32,11 @@ public class DramaScriptMainBoardSearchWindowProvider : ScriptableObject, ISearc
     public void Open(Vector3 screenPosition)
     {
         SearchWindow.Open(new SearchWindowContext(screenPosition), this);
+    }
+
+    public void OpenAndConnectPort(Vector3 screenPosition, Port port)
+    {
+        m_connectPort = port;
+        Open(screenPosition);
     }
 }
