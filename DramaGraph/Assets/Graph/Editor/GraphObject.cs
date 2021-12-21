@@ -30,7 +30,7 @@ namespace GraphEditor
             get { return m_deserializedVersion != m_serializedVersion; }
         }
 
-        public void SetGraphData(GraphData data)
+        public void SetData(GraphData data)
         {
             if (m_graphData != null)
             {
@@ -70,7 +70,7 @@ namespace GraphEditor
         {
             if (m_graphData == null)
             {
-                SetGraphData(DeserializeGraph());
+                SetData(DeserializeGraph());
             }
         }
 

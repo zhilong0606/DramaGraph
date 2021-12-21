@@ -10,19 +10,17 @@ using UnityEngine.UIElements;
 
 namespace GraphEditor
 {
-    public class GraphViewBase : GraphView
+    public class GraphView<TData> : GraphView where TData : GraphData
     {
-        private GraphData m_graphData;
+        private TData m_data;
         private EdgeConnectorListener m_edgeConnectorListener;
         private SearchWindowProvider m_searchWindowProvider;
-        private EditorWindow m_editorWindow;
 
-        public Action<GraphData> actionOnSaveGraphData;
+        public Action<TData> actionOnSaveData;
+        public Func<GraphNodeDefine, Vector2, bool> funcOnCreateNode;
 
-        public GraphViewBase(EditorWindow editorWindow, GraphData graphData)
+        public void Init()
         {
-            m_editorWindow = editorWindow;
-            m_graphData = graphData;
             this.StretchToParentSize();
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
             this.AddManipulator(new ContentDragger());
@@ -36,24 +34,15 @@ namespace GraphEditor
 
             m_edgeConnectorListener = new EdgeConnectorListener(m_searchWindowProvider);
 
-            foreach (var nodeData in m_graphData.nodeDataList)
-            {
-                Type type = null;
-                if (nodeData.GetType() == typeof(GraphNodeDataFloat))
-                {
-                    type = typeof(GraphNodeViewFloat);
-                }
-                CreateNode(type, nodeData.pos);
-            }
             
             IMGUIContainer toolbar = new IMGUIContainer(() =>
             {
                 GUILayout.BeginHorizontal(EditorStyles.toolbar);
                 if (GUILayout.Button("Save Asset", EditorStyles.toolbarButton))
                 {
-                    if (actionOnSaveGraphData != null)
+                    if (actionOnSaveData != null)
                     {
-                        actionOnSaveGraphData(m_graphData);
+                        actionOnSaveData(m_data);
                     }
                 }
                 GUILayout.EndHorizontal();
@@ -63,20 +52,22 @@ namespace GraphEditor
 
         private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, Port connectPort)
         {
-            Type type = searchTreeEntry.userData as Type;
-            var windowRoot = m_editorWindow.rootVisualElement;
-            var windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent, context.screenMousePosition - m_editorWindow.position.position);
-
-            GraphNodeData node = null;
-            if (type == typeof(GraphNodeViewFloat))
+            GraphNodeDefine nodeDefine = searchTreeEntry.userData as GraphNodeDefine;
+            Vector2 windowMousePosition = context.screenMousePosition;
+            if (funcOnCreateNode != null)
             {
-                node = new GraphNodeDataFloat();
+                return funcOnCreateNode(nodeDefine, windowMousePosition);
             }
-            node.pos = contentViewContainer.WorldToLocal(windowMousePosition);
-            m_graphData.nodeDataList.Add(node);
+            return false;
+        }
 
-            CreateNode(type, node.pos);
-            return true;
+        public void SetData(TData data)
+        {
+            m_data = data;
+            foreach (var nodeData in m_data.nodeDataList)
+            {
+                CreateNode(type, nodeData.pos);
+            }
         }
 
         private void CreateNode(Type type, Vector2 pos)
@@ -125,7 +116,7 @@ namespace GraphEditor
 
         protected override bool canDeleteSelection
         {
-            get { return !selection.OfType<GraphNodeViewFloat>().Any(); }
+            get { return true; }
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)

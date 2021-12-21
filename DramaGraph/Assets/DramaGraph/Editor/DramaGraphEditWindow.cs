@@ -13,7 +13,6 @@ namespace GraphEditor.Drama
 {
     public class DramaGraphEditWindow : EditorWindow
     {
-        private DramaGraphView m_view;
         private string m_assetGuid;
 
         public string assetGuid
@@ -46,16 +45,14 @@ namespace GraphEditor.Drama
                 }
                 m_assetGuid = assetGuid;
                 string textGraph = File.ReadAllText(path, Encoding.UTF8);
-                GraphObject graphObject = CreateInstance<GraphObject>();
-                graphObject.hideFlags = HideFlags.HideAndDontSave;
-                graphObject.SetGraphData(JsonUtility.FromJson<GraphData>(textGraph));
-                //graphObject.graphData.messageManager = messageManager;
-                //graphObject.graphData.OnEnable();
-                //graphObject.graphData.ValidateGraph(););
+                DramaGraphData graphData = JsonUtility.FromJson<DramaGraphData>(textGraph);
 
-                m_view = new DramaGraphView(this, graphObject.graphData);
-                m_view.actionOnSaveGraphData = OnSaveGraphData;
-                rootVisualElement.Add(m_view);
+                Graph<DramaGraphData, DramaGraphView> graph = new Graph<DramaGraphData, DramaGraphView>(graphData);
+                graph.Init();
+                graph.actionOnSaveData = OnSaveGraphData;
+                graph.SetData(graphData);
+
+                rootVisualElement.Add(graph.view);
                 titleContent = new GUIContent(asset.name.Split('/').Last());
                 Repaint();
             }
@@ -65,7 +62,7 @@ namespace GraphEditor.Drama
             }
         }
 
-        private void OnSaveGraphData(GraphData graphData)
+        private void OnSaveGraphData(DramaGraphData graphData)
         {
             var path = AssetDatabase.GUIDToAssetPath(m_assetGuid);
             if (string.IsNullOrEmpty(path))

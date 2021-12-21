@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 namespace GraphEditor
 {
-    public class GraphNodeViewBinaryOp : Node
+    public class GraphNodeViewBinaryOp : GraphNodeView
     {
         private EnumField m_opTypeEnumField;
         private FloatField m_resultField;
@@ -20,10 +20,14 @@ namespace GraphEditor
 
         public Port outputPort;
 
+        public GraphNodeDataBinaryOp specificData
+        {
+            get { return m_data as GraphNodeDataBinaryOp; }
+        }
+
         public BinaryOpType opType
         {
-            get { return (BinaryOpType)m_opTypeEnumField.value; }
-            set { m_opTypeEnumField.value = value; }
+            get { return specificData.opType; }
         }
 
         public GraphNodeViewBinaryOp()
@@ -51,6 +55,7 @@ namespace GraphEditor
 
         private void OnOpTypeValueChanged(ChangeEvent<Enum> evt)
         {
+            specificData.opType = (BinaryOpType) m_opTypeEnumField.value;
             RefreshResultLabel();
         }
 

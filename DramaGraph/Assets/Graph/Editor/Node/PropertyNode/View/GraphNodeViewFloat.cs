@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace GraphEditor
 {
-    public class GraphNodeViewFloat : Node
+    public class GraphNodeViewFloat : GraphNodeView
     {
         private FloatField m_floatField;
 

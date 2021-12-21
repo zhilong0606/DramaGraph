@@ -7,6 +7,6 @@ namespace GraphEditor
 {
     public class GraphNodeView : Node
     {
-
+        protected GraphNodeData m_data;
     }
 }

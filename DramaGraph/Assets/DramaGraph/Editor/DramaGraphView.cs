@@ -6,10 +6,7 @@ using UnityEngine;
 
 namespace GraphEditor.Drama
 {
-    public class DramaGraphView : GraphViewBase
+    public class DramaGraphView : GraphView<DramaGraphData>
     {
-        public DramaGraphView(EditorWindow editorWindow, GraphData graphData) : base(editorWindow, graphData)
-        {
-        }
     }
 }
