@@ -1,0 +1,163 @@
+GraphNodeView.graphElement.node.GraphNode {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+GraphNodeView.master {
+    min-width: 200px;
+}
+
+GraphNodeView #collapsible-area {
+    width: 0;
+    height: 0;
+}
+
+GraphNodeView #previewFiller.expanded {
+    width: 200px;
+    padding-bottom: 200px;
+}
+
+GraphNodeView #previewFiller,
+GraphNodeView #controls {
+    background-color: rgba(63, 63, 63, 0.8);
+}
+
+GraphNodeView #controls > #items {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+GraphNodeView #title {
+    padding-top: 8px;
+    border-bottom-width: 8px;
+}
+
+GraphNodeView > #previewContainer {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    border-radius: 6px;
+    padding-top: 6px;
+}
+
+GraphNodeView > #previewContainer > #preview  {
+    width: 200px;
+    height: 200px;
+    align-items:center;
+}
+
+GraphNodeView > #previewContainer > #preview > #collapse {
+    background-color: #000;
+    border-color: #F0F0F0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    border-radius: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    margin-top: 4px;
+    align-items:center;
+    justify-content:center;
+}
+
+
+GraphNodeView:hover > #previewContainer > #preview > #collapse {
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+}
+
+GraphNodeView > #previewContainer > #preview > #collapse > #icon  {
+    background-image : resource("GraphView/Nodes/PreviewCollapse.png");
+    width: 16px;
+    height: 16px;
+}
+
+GraphNodeView > #previewContainer > #preview > #collapse:hover {
+    opacity: 1.0;
+}
+
+GraphNodeView #previewFiller > #expand {
+    align-self: center;
+    width: 56px;
+    height: 16px;
+    flex-direction: row;
+    justify-content:center;
+}
+
+GraphNodeView #previewFiller > #expand > #icon {
+    background-image : resource("GraphView/Nodes/PreviewExpand.png");
+    width: 16px;
+    height: 16px;
+}
+
+GraphNodeView #previewFiller.collapsed > #expand:hover {
+    background-color: #2B2B2B;
+}
+
+GraphNodeView #previewFiller.expanded > #expand {
+    height: 0;
+}
+
+GraphNodeView > #resize {
+    background-image : resource("GraphView/Nodes/NodeChevronLeft.png");
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    width: 10px;
+    height: 10px;
+    cursor: resize-up-left;
+}
+
+GraphNodeView > #portInputContainer {
+    position: absolute;
+    width: 232px;
+    left: -220px;
+    top: 42px;
+}
+
+GraphNodeView > #settings-container {
+    background-color : rgb(63, 63, 63);
+}
+
+#settings-button {
+    width: 16px;
+    justify-content: center;
+    padding-left: 8px;
+}
+
+#settings-button > #icon {
+    width : 12px;
+    height : 12px;
+    align-self: center;
+    visibility: hidden;
+    background-image : resource("Icons/SettingsIcons");
+}
+
+.node:hover #settings-button > #icon {
+    visibility: visible;
+}
+
+#settings-button:hover > #icon {
+    align-self: center;
+    background-color: #2B2B2B;
+    background-image : resource("Icons/SettingsIcons_hover");
+}
+
+#settings-button.clicked > #icon{
+    background-color: #2B2B2B;
+    background-image : resource("Icons/SettingsIcons_hover");
+    visibility: visible;
+}
+
+.node.collapsed > #node-border > #title > #button-container > #collapse-button > #icon {
+    background-image: resource("GraphView/Nodes/NodeChevronLeft.png");
+}
+
+.node.expanded > #node-border > #title > #button-container > #collapse-button > #icon {
+    background-image : resource("GraphView/Nodes/NodeChevronDown.png");
+}

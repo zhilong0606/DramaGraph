@@ -17,8 +17,8 @@ namespace GraphEditor
             List<SearchTreeEntry> entryList = new List<SearchTreeEntry>();
             entryList.Add(new SearchTreeGroupEntry(new GUIContent("Create Node")));
             entryList.Add(new SearchTreeGroupEntry(new GUIContent("Example")) {level = 1});
-            entryList.Add(new SearchTreeEntry(new GUIContent("float")) {level = 2, userData = new GraphNodeDefine() {name = "Float", dataType = typeof(GraphNodeDataFloat), viewType = typeof(GraphNodeViewFloat)}});
-            entryList.Add(new SearchTreeEntry(new GUIContent("binary_op")) {level = 2, userData = new GraphNodeDefine() {name = "BinaryOp", dataType = typeof(GraphNodeDataBinaryOp), viewType = typeof(GraphNodeViewBinaryOp) }});
+            entryList.Add(new SearchTreeEntry(new GUIContent("float")) {level = 2, userData = "Float"});
+            entryList.Add(new SearchTreeEntry(new GUIContent("binary_op")) {level = 2, userData = "BinaryOp"});
             return entryList;
         }
 

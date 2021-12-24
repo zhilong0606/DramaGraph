@@ -15,6 +15,8 @@ namespace GraphEditor
 
         private List<GraphNode> m_nodeList = new List<GraphNode>();
         private List<GraphEdge> m_edgeList = new List<GraphEdge>();
+        private List<GraphNodeDefine> m_nodeDefineList = new List<GraphNodeDefine>();
+        private List<GraphNodePortHelper> m_portHelperList = new List<GraphNodePortHelper>();
         private string m_assetGuid;
 
         public Action<TData> actionOnSaveData;
@@ -32,6 +34,8 @@ namespace GraphEditor
         {
             InitObject();
             InitView();
+            InitNodeDefine();
+            InitPortHelper();
         }
 
         private void InitObject()
@@ -51,6 +55,75 @@ namespace GraphEditor
             m_view.funcOnCreateNode = OnCreateNode;
         }
 
+        private void InitNodeDefine()
+        {
+            m_nodeDefineList = new List<GraphNodeDefine>()
+            {
+                new GraphNodeDefine()
+                {
+                    name = "Float",
+                    portList = new List<GraphNodePortDefine>()
+                    {
+                        new GraphNodePortDefine()
+                        {
+                            id = 0,
+                            valueType = "Float",
+                            portType = EGraphNodePortType.Input,
+                            needPrivateEditor = true,
+                        },
+                        new GraphNodePortDefine()
+                        {
+                            id = 1,
+                            valueType = "Float",
+                            portType = EGraphNodePortType.Output,
+                            needPrivateEditor = false,
+                        },
+                    },
+                },
+                new GraphNodeDefine()
+                {
+                    name = "BinaryOp",
+                    portList = new List<GraphNodePortDefine>()
+                    {
+                        new GraphNodePortDefine()
+                        {
+                            id = 0,
+                            valueType = "Float",
+                            portType = EGraphNodePortType.Input,
+                            needPrivateEditor = true,
+                        },
+                        new GraphNodePortDefine()
+                        {
+                            id = 1,
+                            valueType = "Float",
+                            portType = EGraphNodePortType.Input,
+                            needPrivateEditor = true,
+                        },
+                        new GraphNodePortDefine()
+                        {
+                            id = 2,
+                            valueType = "Float",
+                            portType = EGraphNodePortType.Output,
+                            needPrivateEditor = false,
+                        },
+                    },
+                },
+            };
+        }
+
+        private void InitPortHelper()
+        {
+            m_portHelperList = new List<GraphNodePortHelper>()
+            {
+                new GraphNodePortHelper()
+                {
+                    name = "Float",
+                    dataType = typeof(GraphNodePortDataFloat),
+                    viewType = typeof(GraphNodePortViewFloat),
+                }
+            };
+        }
+
         public void SetData(TData data)
         {
             m_data = data;
@@ -66,17 +139,36 @@ namespace GraphEditor
             }
         }
 
-        private bool OnCreateNode(GraphNodeDefine nodeDefine, Vector2 pos)
+        private bool OnCreateNode(GraphNodeData nodeData, string nodeDefineName, Vector2 pos)
         {
-            GraphNode node = CreateNode(nodeDefine, pos);
+            GraphNode node = CreateNode(nodeData, nodeDefineName, pos);
             return node != null;
         }
 
-        private GraphNode CreateNode(GraphNodeDefine nodeDefine, Vector2 pos)
+        private GraphNode CreateNode(GraphNodeData nodeData, string nodeDefineName, Vector2 pos)
         {
-            GraphNode node = new GraphNode();
-            node.Init(nodeDefine, pos);
-            CreateNode(type, node.pos);
+            GraphNodeDefine nodeDefine = GetNodeDefine(nodeDefineName);
+            if (nodeDefine != null)
+            {
+                GraphNode node = new GraphNode();
+                node.Init(nodeData, nodeDefine, pos);
+                m_view.AddNode(node.view);
+                node.SetPos(pos);
+                return node;
+            }
+            return null;
+        }
+
+        private GraphNodeDefine GetNodeDefine(string nodeDefineName)
+        {
+            for (int i = 0; i < m_nodeDefineList.Count; ++i)
+            {
+                if (m_nodeDefineList[i].name == nodeDefineName)
+                {
+                    return m_nodeDefineList[i];
+                }
+            }
+            return null;
         }
     }
 }

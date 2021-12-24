@@ -17,7 +17,7 @@ namespace GraphEditor
         private SearchWindowProvider m_searchWindowProvider;
 
         public Action<TData> actionOnSaveData;
-        public Func<GraphNodeDefine, Vector2, bool> funcOnCreateNode;
+        public Func<GraphNodeData, string, Vector2, bool> funcOnCreateNode;
 
         public void Init()
         {
@@ -52,11 +52,11 @@ namespace GraphEditor
 
         private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, Port connectPort)
         {
-            GraphNodeDefine nodeDefine = searchTreeEntry.userData as GraphNodeDefine;
+            string nodeDefineName = searchTreeEntry.userData as string;
             Vector2 windowMousePosition = context.screenMousePosition;
             if (funcOnCreateNode != null)
             {
-                return funcOnCreateNode(nodeDefine, windowMousePosition);
+                return funcOnCreateNode(null, nodeDefineName, windowMousePosition);
             }
             return false;
         }
@@ -64,19 +64,20 @@ namespace GraphEditor
         public void SetData(TData data)
         {
             m_data = data;
-            foreach (var nodeData in m_data.nodeDataList)
+            foreach (GraphNodeData nodeData in m_data.nodeDataList)
             {
-                CreateNode(type, nodeData.pos);
+                if (funcOnCreateNode != null)
+                {
+                    funcOnCreateNode(nodeData, nodeData.defineName, nodeData.pos);
+                }
             }
         }
 
-        private void CreateNode(Type type, Vector2 pos)
+        public void AddNode(GraphNodeView nodeView)
         {
-            Node node = Activator.CreateInstance(type) as Node;
-            node.SetPosition(new Rect(pos, Vector2.zero));
-            for (int i = 0; i < node.inputContainer.childCount; ++i)
+            for (int i = 0; i < nodeView.inputContainer.childCount; ++i)
             {
-                Port inputPort = node.inputContainer[i] as Port;
+                Port inputPort = nodeView.inputContainer[i] as Port;
                 if (inputPort != null)
                 {
                     EdgeConnector<Edge> connector = new EdgeConnector<Edge>(m_edgeConnectorListener);
@@ -85,9 +86,9 @@ namespace GraphEditor
                     inputPort.AddManipulator(connector);
                 }
             }
-            for (int i = 0; i < node.outputContainer.childCount; ++i)
+            for (int i = 0; i < nodeView.outputContainer.childCount; ++i)
             {
-                Port outputPort = node.outputContainer[i] as Port;
+                Port outputPort = nodeView.outputContainer[i] as Port;
                 if (outputPort != null)
                 {
                     EdgeConnector<Edge> connector = new EdgeConnector<Edge>(m_edgeConnectorListener);
@@ -96,7 +97,7 @@ namespace GraphEditor
                     outputPort.AddManipulator(connector);
                 }
             }
-            this.AddElement(node);
+            AddElement(nodeView);
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

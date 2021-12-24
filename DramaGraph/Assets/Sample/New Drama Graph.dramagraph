@@ -4,7 +4,7 @@
             "typeInfo": {
                 "fullName": "GraphEditor.GraphNodeDataFloat"
             },
-            "JSONnodeData": "{\n    \"id\": 0,\n    \"pos\": {\n        \"x\": 619.0,\n        \"y\": 295.0\n    },\n    \"value\": 0.0\n}"
+            "JSONnodeData": "{\n    \"id\": 0,\n    \"pos\": {\n        \"x\": 619.0,\n        \"y\": 295.0\n    },\n    \"defineName\": \"\",\n    \"portList\": [],\n    \"value\": 0.0\n}"
         }
     ],
     "m_edgeDataList": [],
