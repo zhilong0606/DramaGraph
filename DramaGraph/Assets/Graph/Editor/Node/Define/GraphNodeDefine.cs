@@ -8,29 +8,29 @@ namespace GraphEditor
     public class GraphNodeDefine
     {
         public string name;
-        public List<GraphNodePortDefine> portList = new List<GraphNodePortDefine>();
+        public List<GraphPortDefine> portList = new List<GraphPortDefine>();
     }
 
-    public class GraphNodePortDefine
+    public class GraphPortDefine
     {
         public int id;
         public string name;
         public string valueType;
         public string defaultValue;
-        public EGraphNodePortType portType;
-        public bool needPrivateEditor;
+        public EGraphPortType portType;
+        public bool isTrigger;
     }
 
-    public enum EGraphNodePortType
+    public enum EGraphPortType
     {
         Input,
         Output,
     }
 
-    public class GraphNodePortHelper
+    public class GraphPortHelper
     {
         public string name;
         public Type dataType;
-        public Type viewType;
+        public Type inputViewType;
     }
 }

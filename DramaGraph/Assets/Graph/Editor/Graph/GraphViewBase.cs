@@ -19,6 +19,11 @@ namespace GraphEditor
         public Action<TData> actionOnSaveData;
         public Func<GraphNodeData, string, Vector2, bool> funcOnCreateNode;
 
+        public EdgeConnectorListener edgeConnectorListener
+        {
+            get { return m_edgeConnectorListener; }
+        }
+
         public void Init()
         {
             this.StretchToParentSize();

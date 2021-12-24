@@ -5,10 +5,8 @@ using UnityEngine;
 
 namespace GraphEditor
 {
-    public class GraphNodePort
+    public class GraphPortDataFloat : GraphPortData
     {
-
-        private GraphNodePortData m_data;
-        private GraphNodePortView m_view;
+        public float value;
     }
 }

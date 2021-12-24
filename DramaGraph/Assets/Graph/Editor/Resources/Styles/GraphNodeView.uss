@@ -116,8 +116,8 @@ GraphNodeView > #resize {
 GraphNodeView > #portInputContainer {
     position: absolute;
     width: 232px;
-    left: -220px;
-    top: 42px;
+    left: -230px;
+    top: 38px;
 }
 
 GraphNodeView > #settings-container {

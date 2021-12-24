@@ -9,11 +9,10 @@ namespace GraphEditor
 {
     public class GraphNodeView : Node
     {
-        protected VisualElement m_portInputContainer;
+        protected VisualElement m_portInputContainerGroup;
         protected GraphNodeData m_data;
 
         protected GraphNodeDefine m_nodeDefine;
-        protected Dictionary<int, Port> m_portMap = new Dictionary<int, Port>();
 
         public void InitView(GraphNodeDefine define)
         {
@@ -21,61 +20,36 @@ namespace GraphEditor
             styleSheets.Add(Resources.Load<StyleSheet>("Styles/GraphNodeView"));
             AddToClassList("GraphNode");
             title = define.name;
-            for (int i = 0; i < define.portList.Count; ++i)
-            {
-                GraphNodePortDefine portDefine = define.portList[i];
-                Direction direction = Direction.Input;
-                VisualElement container = null;
-                switch (portDefine.portType)
-                {
-                    case EGraphNodePortType.Input:
-                        direction = Direction.Input;
-                        container = inputContainer;
-                        break;
-                    case EGraphNodePortType.Output:
-                        direction = Direction.Output;
-                        container = outputContainer;
-                        break;
-                }
-                Port portView = Port.Create<Edge>(Orientation.Horizontal, direction, Port.Capacity.Multi, typeof(Port));
-                container.Add(portView);
-                m_portMap.Add(portDefine.id, portView);
-            }
-            m_portInputContainer = new VisualElement
+            
+            m_portInputContainerGroup = new VisualElement
             {
                 name = "portInputContainer",
                 cacheAsBitmap = true,
                 //style = { overflow = Overflow.Hidden },
                 pickingMode = PickingMode.Ignore
             };
-            Add(m_portInputContainer);
-            m_portInputContainer.SendToBack();
-            UpdatePortInputs();
+            Add(m_portInputContainerGroup);
+            m_portInputContainerGroup.SendToBack();
             RefreshExpandedState();
         }
 
-        void UpdatePortInputs()
+        public void AddPort(GraphPortView port, EGraphPortType portType)
         {
-            foreach (var kv in m_portMap)
-            {
-                Port port = kv.Value;
-                var portInputView = new GraphPortInputViewContainer() { style = { position = Position.Absolute } };
-                m_portInputContainer.Add(portInputView);
-                if (float.IsNaN(port.layout.width))
-                {
-                    //port.RegisterCallback<GeometryChangedEvent>(UpdatePortInput);
-                }
-                else
-                {
-                    SetPortInputPosition(port, portInputView);
-                }
-            }
+            VisualElement container = GetPortContainer(portType);
+            container.Add(port);
+            m_portInputContainerGroup.Add(port.container);
         }
 
-        void SetPortInputPosition(Port port, GraphPortInputViewContainer inputViewContainer)
+        private VisualElement GetPortContainer(EGraphPortType portType)
         {
-            inputViewContainer.style.top = port.layout.y;
-            inputViewContainer.parent.style.height = inputContainer.layout.height;
+            switch (portType)
+            {
+                case EGraphPortType.Input:
+                    return inputContainer;
+                case EGraphPortType.Output:
+                    return outputContainer;
+            }
+            return null;
         }
     }
 }

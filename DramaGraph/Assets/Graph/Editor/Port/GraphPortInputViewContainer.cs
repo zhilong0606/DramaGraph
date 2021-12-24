@@ -9,8 +9,9 @@ namespace GraphEditor
 {
     public class GraphPortInputViewContainer : GraphElement, IDisposable
     {
-        private VisualElement m_Control;
+        private GraphPortInputView m_inputView;
         private VisualElement m_container;
+        private VisualElement m_container2;
         private EdgeControl m_edgeControl;
 
         public GraphPortInputViewContainer()
@@ -27,23 +28,25 @@ namespace GraphEditor
             Add(m_edgeControl);
             m_container = new VisualElement { name = "container" };
             {
-                float value = 0f;
-                GraphPortInputViewFloat control = new GraphPortInputViewFloat();
-                control.InitView(new string[] {"X"}, () => value, (newValue) => value = newValue);
-                m_Control = control;
-                //m_Control = this.slot.InstantiateControl();
-                if (m_Control != null)
-                    m_container.Add(m_Control);
-
-                var slotElement = new VisualElement { name = "slot" };
+                m_container2 = new VisualElement();
+                m_container.Add(m_container2);
+                VisualElement slotElement = new VisualElement { name = "slot" };
                 {
                     slotElement.Add(new VisualElement { name = "dot" });
                 }
                 m_container.Add(slotElement);
             }
             Add(m_container);
+        }
 
-            m_container.visible = m_edgeControl.visible = m_Control != null;
+        public void SetInputView(GraphPortInputView inputView)
+        {
+            m_inputView = inputView;
+            if (inputView != null)
+            {
+                m_container2.Add(inputView);
+            }
+            m_container.visible = m_edgeControl.visible = m_inputView != null;
         }
 
         //void Recreate()
@@ -66,9 +69,11 @@ namespace GraphEditor
 
         public void Dispose()
         {
-            var disposable = m_Control as IDisposable;
+            IDisposable disposable = m_inputView as IDisposable;
             if (disposable != null)
+            {
                 disposable.Dispose();
+            }
         }
     }
 }

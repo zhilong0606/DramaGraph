@@ -11,25 +11,23 @@ namespace GraphEditor
         public int id;
         public Vector2 pos;
         public string defineName;
-        public List<GraphNodePortData> portList = new List<GraphNodePortData>();
+        public List<GraphPortData> portList = new List<GraphPortData>();
 
         public void Init(GraphNodeDefine define)
         {
-            for (int i = 0; i < define.portList.Count; ++i)
+            defineName = define.name;
+        }
+
+        public GraphPortData GetPortData(int id)
+        {
+            for (int i = 0; i < portList.Count; ++i)
             {
-                GraphNodePortDefine portDefine = define.portList[i];
-                GraphNodePortData portData = null;
-                if (portDefine.valueType == "Float")
+                if (portList[i].id == id)
                 {
-                    portData = new GraphNodePortDataFloat();
+                    return portList[i];
                 }
-                if (portData == null)
-                {
-                    continue;
-                }
-                portData.id = portDefine.id;
-                portList.Add(portData);
             }
+            return null;
         }
     }
 }

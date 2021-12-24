@@ -12,11 +12,12 @@ namespace GraphEditor
         private TView m_view;
         private TData m_data;
         private GraphObject m_obj;
+        private GraphContext m_context = new GraphContext();
 
         private List<GraphNode> m_nodeList = new List<GraphNode>();
         private List<GraphEdge> m_edgeList = new List<GraphEdge>();
         private List<GraphNodeDefine> m_nodeDefineList = new List<GraphNodeDefine>();
-        private List<GraphNodePortHelper> m_portHelperList = new List<GraphNodePortHelper>();
+        private List<GraphPortHelper> m_portHelperList = new List<GraphPortHelper>();
         private string m_assetGuid;
 
         public Action<TData> actionOnSaveData;
@@ -32,10 +33,11 @@ namespace GraphEditor
 
         public void Init()
         {
-            InitObject();
-            InitView();
             InitNodeDefine();
             InitPortHelper();
+            m_context.portHelperList = m_portHelperList;
+            InitObject();
+            InitView();
         }
 
         private void InitObject()
@@ -53,6 +55,7 @@ namespace GraphEditor
             m_view.Init();
             m_view.actionOnSaveData = OnSaveData;
             m_view.funcOnCreateNode = OnCreateNode;
+            m_context.edgeConnectorListener = m_view.edgeConnectorListener;
         }
 
         private void InitNodeDefine()
@@ -62,49 +65,49 @@ namespace GraphEditor
                 new GraphNodeDefine()
                 {
                     name = "Float",
-                    portList = new List<GraphNodePortDefine>()
+                    portList = new List<GraphPortDefine>()
                     {
-                        new GraphNodePortDefine()
+                        new GraphPortDefine()
                         {
                             id = 0,
                             valueType = "Float",
-                            portType = EGraphNodePortType.Input,
-                            needPrivateEditor = true,
+                            portType = EGraphPortType.Input,
+                            isTrigger = false,
                         },
-                        new GraphNodePortDefine()
+                        new GraphPortDefine()
                         {
                             id = 1,
                             valueType = "Float",
-                            portType = EGraphNodePortType.Output,
-                            needPrivateEditor = false,
+                            portType = EGraphPortType.Output,
+                            isTrigger = false,
                         },
                     },
                 },
                 new GraphNodeDefine()
                 {
                     name = "BinaryOp",
-                    portList = new List<GraphNodePortDefine>()
+                    portList = new List<GraphPortDefine>()
                     {
-                        new GraphNodePortDefine()
+                        new GraphPortDefine()
                         {
                             id = 0,
                             valueType = "Float",
-                            portType = EGraphNodePortType.Input,
-                            needPrivateEditor = true,
+                            portType = EGraphPortType.Input,
+                            isTrigger = false,
                         },
-                        new GraphNodePortDefine()
+                        new GraphPortDefine()
                         {
                             id = 1,
                             valueType = "Float",
-                            portType = EGraphNodePortType.Input,
-                            needPrivateEditor = true,
+                            portType = EGraphPortType.Input,
+                            isTrigger = false,
                         },
-                        new GraphNodePortDefine()
+                        new GraphPortDefine()
                         {
                             id = 2,
                             valueType = "Float",
-                            portType = EGraphNodePortType.Output,
-                            needPrivateEditor = false,
+                            portType = EGraphPortType.Output,
+                            isTrigger = false,
                         },
                     },
                 },
@@ -113,13 +116,13 @@ namespace GraphEditor
 
         private void InitPortHelper()
         {
-            m_portHelperList = new List<GraphNodePortHelper>()
+            m_portHelperList = new List<GraphPortHelper>()
             {
-                new GraphNodePortHelper()
+                new GraphPortHelper()
                 {
                     name = "Float",
-                    dataType = typeof(GraphNodePortDataFloat),
-                    viewType = typeof(GraphNodePortViewFloat),
+                    dataType = typeof(GraphPortDataFloat),
+                    inputViewType = typeof(GraphPortInputViewFloat),
                 }
             };
         }
@@ -151,7 +154,8 @@ namespace GraphEditor
             if (nodeDefine != null)
             {
                 GraphNode node = new GraphNode();
-                node.Init(nodeData, nodeDefine, pos);
+                GraphNodeContext nodeContext = new GraphNodeContext(m_context);
+                node.Init(nodeData, nodeDefine, nodeContext);
                 m_view.AddNode(node.view);
                 node.SetPos(pos);
                 return node;
