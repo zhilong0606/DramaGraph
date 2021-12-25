@@ -1,0 +1,20 @@
+{
+    "m_serializableNodeDataList": [
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0,\\n    \\\"value\\\": 4.420000076293945\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1,\\n    \\\"value\\\": 0.0\\n}\"\n        }\n    ],\n    \"id\": 0,\n    \"pos\": {\n        \"x\": 716.0,\n        \"y\": 241.0\n    },\n    \"defineName\": \"Float\"\n}"
+        },
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0,\\n    \\\"value\\\": -6.960000038146973\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1,\\n    \\\"value\\\": 10.470000267028809\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 2,\\n    \\\"value\\\": 0.0\\n}\"\n        }\n    ],\n    \"id\": 0,\n    \"pos\": {\n        \"x\": 942.0,\n        \"y\": 322.0\n    },\n    \"defineName\": \"BinaryOp\"\n}"
+        }
+    ],
+    "m_edgeDataList": [],
+    "owner": {
+        "instanceID": 0
+    }
+}

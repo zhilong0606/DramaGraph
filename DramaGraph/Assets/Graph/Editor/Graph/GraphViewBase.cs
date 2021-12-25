@@ -17,7 +17,7 @@ namespace GraphEditor
         private SearchWindowProvider m_searchWindowProvider;
 
         public Action<TData> actionOnSaveData;
-        public Func<GraphNodeData, string, Vector2, bool> funcOnCreateNode;
+        public Func<string, Vector2, bool> funcOnCreateNode;
 
         public EdgeConnectorListener edgeConnectorListener
         {
@@ -58,10 +58,10 @@ namespace GraphEditor
         private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, Port connectPort)
         {
             string nodeDefineName = searchTreeEntry.userData as string;
-            Vector2 windowMousePosition = context.screenMousePosition;
+            Vector2 screenMousePosition = context.screenMousePosition;
             if (funcOnCreateNode != null)
             {
-                return funcOnCreateNode(null, nodeDefineName, windowMousePosition);
+                return funcOnCreateNode(nodeDefineName, screenMousePosition);
             }
             return false;
         }
@@ -69,39 +69,10 @@ namespace GraphEditor
         public void SetData(TData data)
         {
             m_data = data;
-            foreach (GraphNodeData nodeData in m_data.nodeDataList)
-            {
-                if (funcOnCreateNode != null)
-                {
-                    funcOnCreateNode(nodeData, nodeData.defineName, nodeData.pos);
-                }
-            }
         }
 
         public void AddNode(GraphNodeView nodeView)
         {
-            for (int i = 0; i < nodeView.inputContainer.childCount; ++i)
-            {
-                Port inputPort = nodeView.inputContainer[i] as Port;
-                if (inputPort != null)
-                {
-                    EdgeConnector<Edge> connector = new EdgeConnector<Edge>(m_edgeConnectorListener);
-                    FieldInfo fi = typeof(Port).GetField("m_EdgeConnector", BindingFlags.NonPublic | BindingFlags.Instance);
-                    fi.SetValue(inputPort, connector);
-                    inputPort.AddManipulator(connector);
-                }
-            }
-            for (int i = 0; i < nodeView.outputContainer.childCount; ++i)
-            {
-                Port outputPort = nodeView.outputContainer[i] as Port;
-                if (outputPort != null)
-                {
-                    EdgeConnector<Edge> connector = new EdgeConnector<Edge>(m_edgeConnectorListener);
-                    FieldInfo fi = typeof(Port).GetField("m_EdgeConnector", BindingFlags.NonPublic | BindingFlags.Instance);
-                    fi.SetValue(outputPort, connector);
-                    outputPort.AddManipulator(connector);
-                }
-            }
             AddElement(nodeView);
         }
 

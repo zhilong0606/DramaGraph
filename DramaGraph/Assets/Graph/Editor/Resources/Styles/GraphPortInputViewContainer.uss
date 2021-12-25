@@ -20,6 +20,12 @@ GraphPortInputViewContainer > #container {
     border-radius: 2px;
 }
 
+GraphPortInputViewContainer > #container2 {
+    background-color: rgba(63, 63, 63, 0.8);
+    flex-direction: row;
+    align-items: center;
+}
+
 GraphPortInputViewContainer > #container > #slot {
     width: 8px;
     height: 8px;

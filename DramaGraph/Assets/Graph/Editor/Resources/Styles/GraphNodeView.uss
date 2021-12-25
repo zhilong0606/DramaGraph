@@ -116,8 +116,8 @@ GraphNodeView > #resize {
 GraphNodeView > #portInputContainer {
     position: absolute;
     width: 232px;
-    left: -230px;
-    top: 38px;
+    left: -220px;
+    top: 42px;
 }
 
 GraphNodeView > #settings-container {
@@ -154,10 +154,14 @@ GraphNodeView > #settings-container {
     visibility: visible;
 }
 
-.node.collapsed > #node-border > #title > #button-container > #collapse-button > #icon {
-    background-image: resource("GraphView/Nodes/NodeChevronLeft.png");
+.node.collapsed > #node-border > #title > #title-button-container > #collapse-button {
+    visibility: hidden;
+    width : 0px;
+    height : 0px;
 }
 
-.node.expanded > #node-border > #title > #button-container > #collapse-button > #icon {
-    background-image : resource("GraphView/Nodes/NodeChevronDown.png");
+.node.expanded > #node-border > #title > #title-button-container > #collapse-button {
+    visibility: hidden;
+    width : 0px;
+    height : 0px;
 }

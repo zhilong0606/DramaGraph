@@ -12,8 +12,11 @@ namespace GraphEditor
         private GraphPortInputViewContainer m_container;
         private GraphPortInputView m_inputView;
 
+        protected GraphPortData m_data;
+
         public GraphPortDefine define;
         public Func<GraphPortInputView> funcOnCreateInputView;
+        public Action actionOnGeometryChanged;
 
         public GraphPortInputViewContainer container
         {
@@ -80,19 +83,32 @@ namespace GraphEditor
             }
         }
 
+        public void SetData(GraphPortData data)
+        {
+            m_data = data;
+            if (m_inputView != null)
+            {
+                m_inputView.SetData(data);
+            }
+        }
+
         private void UpdatePortInput(GeometryChangedEvent evt)
         {
             //GraphPortView port = (GraphPortView)evt.target;
             //var inputView = m_PortInputContainer.Children().OfType<PortInputView>().First(x => Equals(x.slot, port.slot));
             RefreshPortInputPosition();
+            if (actionOnGeometryChanged != null)
+            {
+                actionOnGeometryChanged();
+            }
             UnregisterCallback<GeometryChangedEvent>(UpdatePortInput);
         }
 
         private void RefreshPortInputPosition()
         {
-            if (m_inputView != null)
+            if (m_container != null)
             {
-                m_inputView.style.top = layout.y;
+                m_container.style.top = layout.y;
                 //inputView.parent.style.height = inputContainer.layout.height;
             }
         }

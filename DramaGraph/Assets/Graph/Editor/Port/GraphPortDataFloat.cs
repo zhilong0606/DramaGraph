@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace GraphEditor
 {
+    [Serializable]
     public class GraphPortDataFloat : GraphPortData
     {
         public float value;

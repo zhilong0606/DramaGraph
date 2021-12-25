@@ -17,6 +17,7 @@ namespace GraphEditor
         public GraphPortInputViewContainer()
         {
             styleSheets.Add(Resources.Load<StyleSheet>("Styles/GraphPortInputViewContainer"));
+            ClearClassList();
             pickingMode = PickingMode.Ignore;
             m_edgeControl = new EdgeControl
             {
@@ -28,7 +29,7 @@ namespace GraphEditor
             Add(m_edgeControl);
             m_container = new VisualElement { name = "container" };
             {
-                m_container2 = new VisualElement();
+                m_container2 = new VisualElement {name = "container2"};
                 m_container.Add(m_container2);
                 VisualElement slotElement = new VisualElement { name = "slot" };
                 {
@@ -37,6 +38,8 @@ namespace GraphEditor
                 m_container.Add(slotElement);
             }
             Add(m_container);
+
+            RegisterCallback<CustomStyleResolvedEvent>(OnCustomStyleResolved);
         }
 
         public void SetInputView(GraphPortInputView inputView)
@@ -74,6 +77,11 @@ namespace GraphEditor
             {
                 disposable.Dispose();
             }
+        }
+
+        private void OnCustomStyleResolved(CustomStyleResolvedEvent e)
+        {
+            m_edgeControl.UpdateLayout();
         }
     }
 }

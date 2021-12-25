@@ -12,9 +12,16 @@ namespace GraphEditor
         private GraphPortDefine m_define;
         private GraphPortContext m_context;
 
+        public Action actionOnPortViewGeometryChanged;
+
         public GraphPortDefine define
         {
             get { return m_define; }
+        }
+
+        public GraphPortData data
+        {
+            get { return m_data; }
         }
 
         public GraphPortView view
@@ -22,25 +29,20 @@ namespace GraphEditor
             get { return m_view; }
         }
 
-        public void Init(GraphPortData data, GraphPortDefine define, GraphPortContext context)
+        public void Init(GraphPortDefine define, GraphPortContext context)
         {
             m_define = define;
             m_context = context;
-            if (data == null)
-            {
-                if (define.valueType == "Float")
-                {
-                    data = new GraphPortDataFloat();
-                }
-                if (data != null)
-                {
-                    data.Init(define);
-                }
-            }
-            m_data = data;
             m_view = GraphPortView.Create(define, m_context.nodeContext.graphContext.edgeConnectorListener);
             m_view.funcOnCreateInputView = OnCreateInputView;
             m_view.InitView();
+            m_view.actionOnGeometryChanged = OnPortViewGeometryChanged;
+        }
+
+        public void SetData(GraphPortData data)
+        {
+            m_data = data;
+            m_view.SetData(data);
         }
 
         private GraphPortInputView OnCreateInputView()
@@ -51,6 +53,14 @@ namespace GraphEditor
                 return Activator.CreateInstance(helper.inputViewType) as GraphPortInputView;
             }
             return null;
+        }
+
+        private void OnPortViewGeometryChanged()
+        {
+            if (actionOnPortViewGeometryChanged != null)
+            {
+                actionOnPortViewGeometryChanged();
+            }
         }
 
         private GraphPortHelper GetHelper()

@@ -18,7 +18,7 @@ namespace GraphEditor
         {
             m_nodeDefine = define;
             styleSheets.Add(Resources.Load<StyleSheet>("Styles/GraphNodeView"));
-            AddToClassList("GraphNode");
+            AddToClassList("GraphNodeView");
             title = define.name;
             
             m_portInputContainerGroup = new VisualElement
@@ -37,7 +37,16 @@ namespace GraphEditor
         {
             VisualElement container = GetPortContainer(portType);
             container.Add(port);
-            m_portInputContainerGroup.Add(port.container);
+            if (portType == EGraphPortType.Input)
+            {
+                m_portInputContainerGroup.Add(port.container);
+                RefreshPortInputContainerGroupHeight();
+            }
+        }
+
+        public void RefreshPortInputContainerGroupHeight()
+        {
+            m_portInputContainerGroup.style.height = inputContainer.layout.height;
         }
 
         private VisualElement GetPortContainer(EGraphPortType portType)

@@ -47,8 +47,10 @@ namespace GraphEditor.Drama
                 string textGraph = File.ReadAllText(path, Encoding.UTF8);
                 DramaGraphData graphData = JsonUtility.FromJson<DramaGraphData>(textGraph);
 
-                Graph<DramaGraphData, DramaGraphView> graph = new Graph<DramaGraphData, DramaGraphView>(graphData);
-                graph.Init();
+                GraphContext context = new GraphContext();
+                context.window = this;
+                Graph<DramaGraphData, DramaGraphView> graph = new Graph<DramaGraphData, DramaGraphView>();
+                graph.Init(context);
                 graph.actionOnSaveData = OnSaveGraphData;
                 graph.SetData(graphData);
 

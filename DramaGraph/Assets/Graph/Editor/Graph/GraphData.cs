@@ -9,8 +9,10 @@ namespace GraphEditor
     [Serializable]
     public class GraphData : ISerializationCallbackReceiver
     {
-        [SerializeField] private List<SerializedElement> m_serializableNodeDataList = new List<SerializedElement>();
-        [SerializeField] private List<GraphEdgeData> m_edgeDataList = new List<GraphEdgeData>();
+        [SerializeField]
+        private List<SerializedElement> m_serializableNodeDataList = new List<SerializedElement>();
+        [SerializeField]
+        private List<GraphEdgeData> m_edgeDataList = new List<GraphEdgeData>();
 
         private List<GraphNodeData> m_nodeDataList = new List<GraphNodeData>();
 
@@ -19,6 +21,16 @@ namespace GraphEditor
         public List<GraphNodeData> nodeDataList
         {
             get { return m_nodeDataList; }
+        }
+
+        public void AddNode(GraphNodeData node)
+        {
+            m_nodeDataList.Add(node);
+        }
+
+        public void RemoveNode(GraphNodeData node)
+        {
+            m_nodeDataList.Remove(node);
         }
 
         public void OnBeforeSerialize()

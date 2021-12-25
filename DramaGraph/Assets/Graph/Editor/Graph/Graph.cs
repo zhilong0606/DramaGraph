@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GraphEditor
 {
@@ -12,7 +13,7 @@ namespace GraphEditor
         private TView m_view;
         private TData m_data;
         private GraphObject m_obj;
-        private GraphContext m_context = new GraphContext();
+        private GraphContext m_context;
 
         private List<GraphNode> m_nodeList = new List<GraphNode>();
         private List<GraphEdge> m_edgeList = new List<GraphEdge>();
@@ -27,12 +28,9 @@ namespace GraphEditor
             get { return m_view; }
         }
 
-        public Graph(TData data)
+        public void Init(GraphContext context)
         {
-        }
-
-        public void Init()
-        {
+            m_context = context;
             InitNodeDefine();
             InitPortHelper();
             m_context.portHelperList = m_portHelperList;
@@ -132,6 +130,10 @@ namespace GraphEditor
             m_data = data;
             m_obj.SetData(data);
             m_view.SetData(data);
+            for (int i = 0; i < data.nodeDataList.Count; ++i)
+            {
+                CreateNode(data.nodeDataList[i]);
+            }
         }
 
         private void OnSaveData(TData data)
@@ -142,22 +144,42 @@ namespace GraphEditor
             }
         }
 
-        private bool OnCreateNode(GraphNodeData nodeData, string nodeDefineName, Vector2 pos)
+        private bool OnCreateNode(string nodeDefineName, Vector2 screenMousePosition)
         {
-            GraphNode node = CreateNode(nodeData, nodeDefineName, pos);
+            VisualElement windowRoot = m_context.window.rootVisualElement;
+            Vector2 windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent, screenMousePosition - m_context.window.position.position);
+            Vector2 localPos = m_view.contentViewContainer.WorldToLocal(windowMousePosition);
+
+            GraphNode node = CreateNode(nodeDefineName, localPos);
             return node != null;
         }
 
-        private GraphNode CreateNode(GraphNodeData nodeData, string nodeDefineName, Vector2 pos)
+        private GraphNode CreateNode(string nodeDefineName, Vector2 pos)
         {
             GraphNodeDefine nodeDefine = GetNodeDefine(nodeDefineName);
             if (nodeDefine != null)
             {
-                GraphNode node = new GraphNode();
+                GraphNodeData nodeData = new GraphNodeData();
+                nodeData.Init(nodeDefine);
+                nodeData.pos = pos;
+                m_data.AddNode(nodeData);
+                return CreateNode(nodeData);
+            }
+            return null;
+        }
+
+        private GraphNode CreateNode(GraphNodeData nodeData)
+        {
+            GraphNodeDefine nodeDefine = GetNodeDefine(nodeData.defineName);
+            if (nodeDefine != null)
+            {
                 GraphNodeContext nodeContext = new GraphNodeContext(m_context);
-                node.Init(nodeData, nodeDefine, nodeContext);
+                GraphNode node = new GraphNode();
+                node.Init(nodeDefine, nodeContext);
                 m_view.AddNode(node.view);
-                node.SetPos(pos);
+                node.SetData(nodeData);
+                node.SetPos(nodeData.pos);
+                m_nodeList.Add(node);
                 return node;
             }
             return null;
