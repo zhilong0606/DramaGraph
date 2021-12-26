@@ -17,7 +17,7 @@ namespace GraphEditor
         private SearchWindowProvider m_searchWindowProvider;
 
         public Action<TData> actionOnSaveData;
-        public Func<string, Vector2, bool> funcOnCreateNode;
+        public Func<string, Vector2, GraphPortView, bool> funcOnCreateNode;
 
         public EdgeConnectorListener edgeConnectorListener
         {
@@ -55,13 +55,13 @@ namespace GraphEditor
             Add(toolbar);
         }
 
-        private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, Port connectPort)
+        private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, GraphPortView connectPortView)
         {
             string nodeDefineName = searchTreeEntry.userData as string;
             Vector2 screenMousePosition = context.screenMousePosition;
             if (funcOnCreateNode != null)
             {
-                return funcOnCreateNode(nodeDefineName, screenMousePosition);
+                return funcOnCreateNode(nodeDefineName, screenMousePosition, connectPortView);
             }
             return false;
         }

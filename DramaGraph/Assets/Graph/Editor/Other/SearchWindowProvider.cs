@@ -8,9 +8,9 @@ namespace GraphEditor
 {
     public class SearchWindowProvider : ScriptableObject, ISearchWindowProvider
     {
-        public Func<SearchTreeEntry, SearchWindowContext, Port, bool> funcOnSelectEntry;
+        public Func<SearchTreeEntry, SearchWindowContext, GraphPortView, bool> funcOnSelectEntry;
 
-        private Port m_connectPort;
+        private GraphPortView m_connectPortView;
 
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
@@ -26,7 +26,7 @@ namespace GraphEditor
         {
             if (funcOnSelectEntry != null)
             {
-                return funcOnSelectEntry(searchTreeEntry, context, m_connectPort);
+                return funcOnSelectEntry(searchTreeEntry, context, m_connectPortView);
             }
             return false;
         }
@@ -36,9 +36,9 @@ namespace GraphEditor
             SearchWindow.Open(new SearchWindowContext(screenPosition), this);
         }
 
-        public void OpenAndConnectPort(Vector3 screenPosition, Port port)
+        public void OpenAndConnectPort(Vector3 screenPosition, GraphPortView portView)
         {
-            m_connectPort = port;
+            m_connectPortView = portView;
             Open(screenPosition);
         }
     }

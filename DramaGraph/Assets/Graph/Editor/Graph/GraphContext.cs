@@ -12,5 +12,6 @@ namespace GraphEditor
         public EdgeConnectorListener edgeConnectorListener;
         public EditorWindow window;
         public List<GraphPortHelper> portHelperList;
+        public string nodeDefinePath;
     }
 }

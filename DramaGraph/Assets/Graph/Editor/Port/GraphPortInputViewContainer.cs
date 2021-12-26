@@ -52,6 +52,22 @@ namespace GraphEditor
             m_container.visible = m_edgeControl.visible = m_inputView != null;
         }
 
+        public void ShowInputView()
+        {
+            if (m_container != null)
+            {
+                m_container.visible = m_edgeControl.visible = true;
+            }
+        }
+
+        public void HideInputView()
+        {
+            if (m_container != null)
+            {
+                m_container.visible = m_edgeControl.visible = false;
+            }
+        }
+
         //void Recreate()
         //{
         //    RemoveFromClassList("type" + m_SlotType);

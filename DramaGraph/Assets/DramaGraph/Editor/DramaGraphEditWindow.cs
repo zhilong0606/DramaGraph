@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -49,6 +50,7 @@ namespace GraphEditor.Drama
 
                 GraphContext context = new GraphContext();
                 context.window = this;
+                context.nodeDefinePath = "Assets/DramaGraph/NodeDefine/NodeDefines.xml";
                 Graph<DramaGraphData, DramaGraphView> graph = new Graph<DramaGraphData, DramaGraphView>();
                 graph.Init(context);
                 graph.actionOnSaveData = OnSaveGraphData;

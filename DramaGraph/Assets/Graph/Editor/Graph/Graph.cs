@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -53,76 +55,51 @@ namespace GraphEditor
             m_view.Init();
             m_view.actionOnSaveData = OnSaveData;
             m_view.funcOnCreateNode = OnCreateNode;
+            m_view.edgeConnectorListener.actionOnEdgeCreated = OnEdgeCreated;
+            m_view.edgeConnectorListener.actionOnEdgeRemoved = OnEdgeRemoved;
             m_context.edgeConnectorListener = m_view.edgeConnectorListener;
         }
 
         private void InitNodeDefine()
         {
-            m_nodeDefineList = new List<GraphNodeDefine>()
+            m_nodeDefineList.Clear();
+            using (FileStream stream = File.Open(m_context.nodeDefinePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
-                new GraphNodeDefine()
+                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefines));
+                try
                 {
-                    name = "Float",
-                    portList = new List<GraphPortDefine>()
-                    {
-                        new GraphPortDefine()
-                        {
-                            id = 0,
-                            valueType = "Float",
-                            portType = EGraphPortType.Input,
-                            isTrigger = false,
-                        },
-                        new GraphPortDefine()
-                        {
-                            id = 1,
-                            valueType = "Float",
-                            portType = EGraphPortType.Output,
-                            isTrigger = false,
-                        },
-                    },
-                },
-                new GraphNodeDefine()
+                    GraphNodeDefines defines = serialize.Deserialize(stream) as GraphNodeDefines;
+                    m_nodeDefineList.AddRange(defines.nodeList);
+                }
+                catch
                 {
-                    name = "BinaryOp",
-                    portList = new List<GraphPortDefine>()
-                    {
-                        new GraphPortDefine()
-                        {
-                            id = 0,
-                            valueType = "Float",
-                            portType = EGraphPortType.Input,
-                            isTrigger = false,
-                        },
-                        new GraphPortDefine()
-                        {
-                            id = 1,
-                            valueType = "Float",
-                            portType = EGraphPortType.Input,
-                            isTrigger = false,
-                        },
-                        new GraphPortDefine()
-                        {
-                            id = 2,
-                            valueType = "Float",
-                            portType = EGraphPortType.Output,
-                            isTrigger = false,
-                        },
-                    },
-                },
-            };
+                }
+            }
         }
 
         private void InitPortHelper()
         {
-            m_portHelperList = new List<GraphPortHelper>()
+            foreach (Type type in GetType().Assembly.GetTypes())
             {
-                new GraphPortHelper()
+                object[] attrs = type.GetCustomAttributes(true);
+                for (int i = 0; i < attrs.Length; ++i)
                 {
-                    name = "Float",
-                    dataType = typeof(GraphPortDataFloat),
-                    inputViewType = typeof(GraphPortInputViewFloat),
+                    GraphPortDataAttribute portDataAttr = attrs[i] as GraphPortDataAttribute;
+                    if (portDataAttr != null)
+                    {
+                        GraphPortHelper helper = GetPortHelper(portDataAttr.type, true);
+                        helper.dataType = type;
+                        break;
+                    }
+                    GraphPortInputViewAttribute portInputViewAttr = attrs[i] as GraphPortInputViewAttribute;
+                    if (portInputViewAttr != null)
+                    {
+                        GraphPortHelper helper = GetPortHelper(portInputViewAttr.type, true);
+                        helper.inputViewType = type;
+                        break;
+                    }
                 }
-            };
+            }
         }
 
         public void SetData(TData data)
@@ -134,6 +111,10 @@ namespace GraphEditor
             {
                 CreateNode(data.nodeDataList[i]);
             }
+            for (int i = 0; i < data.edgeDataList.Count; ++i)
+            {
+                CreateEdge(data.edgeDataList[i]);
+            }
         }
 
         private void OnSaveData(TData data)
@@ -144,14 +125,39 @@ namespace GraphEditor
             }
         }
 
-        private bool OnCreateNode(string nodeDefineName, Vector2 screenMousePosition)
+        private bool OnCreateNode(string nodeDefineName, Vector2 screenMousePosition, GraphPortView connectPortView)
         {
             VisualElement windowRoot = m_context.window.rootVisualElement;
             Vector2 windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent, screenMousePosition - m_context.window.position.position);
             Vector2 localPos = m_view.contentViewContainer.WorldToLocal(windowMousePosition);
 
             GraphNode node = CreateNode(nodeDefineName, localPos);
-            return node != null;
+            if (node != null)
+            {
+                if (connectPortView != null)
+                {
+                    GraphPort connectablePort = node.FindConnectablePort(connectPortView.owner);
+                    int nodeId1, portId1, nodeId2, portId2;
+                    if (connectablePort != null
+                        && TryGetPortInfo(connectablePort, out nodeId1, out portId1)
+                        && TryGetPortInfo(connectPortView, out nodeId2, out portId2))
+                    {
+                        GraphEdgeData edgeData = new GraphEdgeData();
+                        if (connectablePort.define.portType == EGraphPortType.Output)
+                        {
+                            edgeData.Init(nodeId1, portId1, nodeId2, portId2);
+                        }
+                        else if (connectablePort.define.portType == EGraphPortType.Input)
+                        {
+                            edgeData.Init(nodeId2, portId2, nodeId1, portId1);
+                        }
+                        m_data.AddEdge(edgeData);
+                        CreateEdge(edgeData);
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         private GraphNode CreateNode(string nodeDefineName, Vector2 pos)
@@ -160,6 +166,7 @@ namespace GraphEditor
             if (nodeDefine != null)
             {
                 GraphNodeData nodeData = new GraphNodeData();
+                nodeData.id = GetUnusedNodeId();
                 nodeData.Init(nodeDefine);
                 nodeData.pos = pos;
                 m_data.AddNode(nodeData);
@@ -185,6 +192,163 @@ namespace GraphEditor
             return null;
         }
 
+        private int GetUnusedNodeId()
+        {
+            List<int> usedNodeIdList = new List<int>();
+            for (int i = 0; i < m_nodeList.Count; ++i)
+            {
+                usedNodeIdList.Add(m_nodeList[i].data.id);
+            }
+            int id = 1;
+            while (usedNodeIdList.Contains(id))
+            {
+                id++;
+            }
+            return id;
+        }
+
+        private void OnEdgeCreated(GraphEdgeView edgeView)
+        {
+            GraphEdge edge = CreateEdge(edgeView);
+            if (edge != null)
+            {
+                AddEdge(edge);
+            }
+        }
+
+        private void OnEdgeRemoved(GraphEdgeView edgeView)
+        {
+            RemoveEdge(edgeView);
+        }
+
+        private GraphEdge CreateEdge(GraphEdgeView edgeView)
+        {
+            GraphEdgeData edgeData = CreateEdgeData(edgeView);
+            if (edgeData != null)
+            {
+                return CreateEdge(edgeData, edgeView);
+            }
+            return null;
+        }
+
+        private GraphEdge CreateEdge(GraphEdgeData edgeData)
+        {
+            GraphPort inputPort = GetPort(edgeData.inputNodeId, edgeData.inputPortId);
+            GraphPort outputPort = GetPort(edgeData.outputNodeId, edgeData.outputPortId);
+            GraphEdgeView edgeView = new GraphEdgeView()
+            {
+                output = outputPort.view,
+                input = inputPort.view
+            };
+            return CreateEdge(edgeData, edgeView);
+        }
+
+        private GraphEdge CreateEdge(GraphEdgeData edgeData, GraphEdgeView edgeView)
+        {
+            GraphPort inputPort = GetPort(edgeData.inputNodeId, edgeData.inputPortId);
+            GraphPort outputPort = GetPort(edgeData.outputNodeId, edgeData.outputPortId);
+            GraphEdge edge = new GraphEdge();
+            edge.Init(edgeData, edgeView);
+            edge.inputPort = inputPort;
+            edge.outputPort = outputPort;
+            m_edgeList.Add(edge);
+            edgeView.Init(edge);
+            m_view.Add(edge.view);
+            inputPort.AddEdge(edge);
+            outputPort.AddEdge(edge);
+            return edge;
+        }
+
+        private void AddEdge(GraphEdge edge)
+        {
+        }
+
+        private void RemoveEdge(GraphEdgeView edgeView)
+        {
+            GraphEdge edge = edgeView.owner;
+            if (edge == null)
+            {
+                return;
+            }
+            if (edge.inputPort != null)
+            {
+                edge.inputPort.RemoveEdge(edge);
+                edge.inputPort = null;
+            }
+            if (edge.outputPort != null)
+            {
+                edge.outputPort.RemoveEdge(edge);
+                edge.outputPort = null;
+            }
+            m_edgeList.Remove(edge);
+            m_data.RemoveEdge(edge.data);
+            //m_view.Remove(edge.view);
+        }
+
+        private GraphEdgeData CreateEdgeData(GraphEdgeView edgeView)
+        {
+            int inputNodeId, inputPortId, outputNodeId, outputPortId;
+            if (TryGetPortInfo(edgeView.input as GraphPortView, out inputNodeId, out inputPortId)
+                && TryGetPortInfo(edgeView.output as GraphPortView, out outputNodeId, out outputPortId))
+            {
+                if (inputNodeId != outputNodeId)
+                {
+                    GraphEdgeData edgeData = new GraphEdgeData();
+                    edgeData.Init(outputNodeId, outputPortId, inputNodeId, inputPortId);
+                    m_data.AddEdge(edgeData);
+                    return edgeData;
+                }
+            }
+            return null;
+        }
+
+        private bool TryGetPortInfo(GraphPort port, out int nodeId, out int portId)
+        {
+            if (port != null && port.owner != null)
+            {
+                nodeId = port.owner.data.id;
+                portId = port.data.id;
+                return true;
+            }
+            nodeId = 0;
+            portId = 0;
+            return false;
+        }
+
+        private bool TryGetPortInfo(GraphPortView portView, out int nodeId, out int portId)
+        {
+            if (portView != null && portView.owner != null)
+            {
+                return TryGetPortInfo(portView.owner, out nodeId, out portId);
+            }
+            nodeId = 0;
+            portId = 0;
+            return false;
+        }
+
+        private GraphNode GetNode(int nodeId)
+        {
+            for (int i = 0; i < m_nodeList.Count; ++i)
+            {
+                if (m_nodeList[i].data.id == nodeId)
+                {
+                    return m_nodeList[i];
+                }
+            }
+            return null;
+        }
+
+
+        private GraphPort GetPort(int nodeId, int portId)
+        {
+            GraphNode node = GetNode(nodeId);
+            if (node != null)
+            {
+                return node.GetPort(portId);
+            }
+            return null;
+        }
+
         private GraphNodeDefine GetNodeDefine(string nodeDefineName)
         {
             for (int i = 0; i < m_nodeDefineList.Count; ++i)
@@ -193,6 +357,25 @@ namespace GraphEditor
                 {
                     return m_nodeDefineList[i];
                 }
+            }
+            return null;
+        }
+
+        private GraphPortHelper GetPortHelper(EGraphPortValueType type, bool autoCreate)
+        {
+            for (int i = 0; i < m_portHelperList.Count; ++i)
+            {
+                if (m_portHelperList[i].valueType == type)
+                {
+                    return m_portHelperList[i];
+                }
+            }
+            if (autoCreate)
+            {
+                GraphPortHelper helper = new GraphPortHelper();
+                helper.valueType = type;
+                m_portHelperList.Add(helper);
+                return helper;
             }
             return null;
         }

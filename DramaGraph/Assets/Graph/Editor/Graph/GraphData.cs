@@ -23,6 +23,11 @@ namespace GraphEditor
             get { return m_nodeDataList; }
         }
 
+        public List<GraphEdgeData> edgeDataList
+        {
+            get { return m_edgeDataList; }
+        }
+
         public void AddNode(GraphNodeData node)
         {
             m_nodeDataList.Add(node);
@@ -31,6 +36,16 @@ namespace GraphEditor
         public void RemoveNode(GraphNodeData node)
         {
             m_nodeDataList.Remove(node);
+        }
+
+        public void AddEdge(GraphEdgeData edgeData)
+        {
+            m_edgeDataList.Add(edgeData);
+        }
+
+        public void RemoveEdge(GraphEdgeData edgeData)
+        {
+            m_edgeDataList.Remove(edgeData);
         }
 
         public void OnBeforeSerialize()

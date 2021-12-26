@@ -10,6 +10,9 @@ namespace GraphEditor
     {
         private SearchWindowProvider m_searchWindowProvider;
 
+        public Action<GraphEdgeView> actionOnEdgeCreated;
+        public Action<GraphEdgeView> actionOnEdgeRemoved;
+
         public EdgeConnectorListener(SearchWindowProvider searchWindowProvider)
         {
             m_searchWindowProvider = searchWindowProvider;
@@ -17,20 +20,39 @@ namespace GraphEditor
 
         public void OnDropOutsidePort(Edge edge, Vector2 position)
         {
-            Port draggedPort = null;
-            if (edge.output != null)
+            GraphEdgeView edgeView = edge as GraphEdgeView;
+            if (edge.input == null || edge.output == null)
             {
-                draggedPort = edge.output.edgeConnector.edgeDragHelper.draggedPort;
-                if (draggedPort == null && edge.input != null)
+                GraphPortView portView = null;
+                if (edge.input != null)
                 {
-                    draggedPort = edge.input.edgeConnector.edgeDragHelper.draggedPort;
+                    portView = edge.input as GraphPortView;
+                }
+                if (edge.output != null)
+                {
+                    portView = edge.output as GraphPortView;
+                }
+                if (portView != null)
+                {
+                    m_searchWindowProvider.OpenAndConnectPort(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), portView);
                 }
             }
-            m_searchWindowProvider.OpenAndConnectPort(GUIUtility.GUIToScreenPoint(Event.current.mousePosition), draggedPort);
+            if (edgeView != null && actionOnEdgeRemoved != null)
+            {
+                actionOnEdgeRemoved(edgeView);
+            }
         }
 
         public void OnDrop(GraphView graphView, Edge edge)
         {
+            GraphEdgeView edgeView = edge as GraphEdgeView;
+            if(edgeView != null && actionOnEdgeCreated != null)
+            {
+                actionOnEdgeCreated(edgeView);
+            }
+            var leftSlot = edge.output;
+            var rightSlot = edge.input;
+            graphView.Add(edge);
             //var leftSlot = edge.output.no;
             //var rightSlot = edge.input.GetSlot();
             //if (leftSlot != null && rightSlot != null)

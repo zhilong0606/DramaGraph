@@ -1,38 +1,32 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Label = System.Reflection.Emit.Label;
 
 namespace GraphEditor
 {
-    [GraphPortInputView(EGraphPortValueType.Float)]
-    public class GraphPortInputViewFloat : GraphPortInputView
+    [GraphPortInputView(EGraphPortValueType.String)]
+    public class GraphPortInputViewString : GraphPortInputView
     {
-        private Label m_nameLabel;
-        private FloatField m_valueField;
+        private TextField m_valueField;
         protected int m_undoGroup = -1;
 
-        protected GraphPortDataFloat specificData
+        protected GraphPortDataString specificData
         {
-            get { return m_data as GraphPortDataFloat; }
+            get { return m_data as GraphPortDataString; }
         }
 
         protected override void OnInitView()
         {
             base.OnInitView();
-            styleSheets.Add(Resources.Load<StyleSheet>("Styles/GraphPortInputViewFloat"));
+            styleSheets.Add(Resources.Load<StyleSheet>("Styles/GraphPortInputViewString"));
 
             VisualElement dummyElement = new VisualElement { name = "dummy" };
-            m_nameLabel = new Label("T");
-            dummyElement.Add(m_nameLabel);
             Add(dummyElement);
-            m_valueField = new FloatField();// { userData = index, value = initialValue };
-            FieldMouseDragger<float> dragger = new FieldMouseDragger<float>(m_valueField);
-            dragger.SetDragZone(m_nameLabel);
+            m_valueField = new TextField();
             m_valueField.Q("unity-text-input").RegisterCallback<KeyDownEvent>(evt =>
             {
                 if (m_undoGroup == -1)
@@ -55,8 +49,8 @@ namespace GraphEditor
                 {
                     //m_Node.owner.owner.RegisterCompleteObjectUndo("Change " + m_Node.name);
                 }
-                float value = specificData.value;
-                if (Mathf.Abs(value - evt.newValue) > float.Epsilon)
+                var value = specificData.value;
+                if (value != evt.newValue)
                 {
                     specificData.value = evt.newValue;
                     //m_Set(value);

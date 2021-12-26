@@ -12,9 +12,10 @@ namespace GraphEditor
         private GraphPortInputViewContainer m_container;
         private GraphPortInputView m_inputView;
 
+        protected GraphPort m_owner;
         protected GraphPortData m_data;
+        protected GraphPortDefine m_define;
 
-        public GraphPortDefine define;
         public Func<GraphPortInputView> funcOnCreateInputView;
         public Action actionOnGeometryChanged;
 
@@ -28,13 +29,23 @@ namespace GraphEditor
             get { return m_inputView; }
         }
 
+        public int id
+        {
+            get { return m_data.id; }
+        }
+
+        public GraphPort owner
+        {
+            get { return m_owner; }
+        }
+
         protected GraphPortView(Orientation portOrientation, Direction portDirection, Capacity portCapacity, Type type)
             : base(portOrientation, portDirection, portCapacity, type)
         {
             styleSheets.Add(Resources.Load<StyleSheet>("Styles/GraphPortView"));
         }
 
-        public static GraphPortView Create(GraphPortDefine define, IEdgeConnectorListener connectorListener)
+        public static GraphPortView Create(GraphPort owner, GraphPortDefine define, IEdgeConnectorListener connectorListener)
         {
             Direction direction = Direction.Input;
             Capacity capacity = Capacity.Single;
@@ -49,21 +60,22 @@ namespace GraphEditor
                     capacity = Capacity.Multi;
                     break;
             }
-            EdgeConnector<Edge> edgeConnector = new EdgeConnector<Edge>(connectorListener);
-            GraphPortView port = new GraphPortView(Orientation.Horizontal, direction, capacity, null)
+            EdgeConnector<GraphEdgeView> edgeConnector = new EdgeConnector<GraphEdgeView>(connectorListener);
+            GraphPortView port = new GraphPortView(Orientation.Horizontal, direction, capacity, typeof(GraphPortView))
             {
                 m_EdgeConnector = edgeConnector,
             };
-            port.define = define;
+            port.m_define = define;
+            port.m_owner = owner;
             port.AddManipulator(edgeConnector);
             return port;
         }
 
         public void InitView()
         {
-            portName = define.name;
+            portName = m_define.name;
             //visualClass = slot.concreteValueType.ToClassName();
-            if (define.portType == EGraphPortType.Input && !define.isTrigger)
+            if (m_define.portType == EGraphPortType.Input && !m_define.isTrigger)
             {
                 m_container = new GraphPortInputViewContainer() { style = { position = Position.Absolute } };
                 if (funcOnCreateInputView != null)
@@ -89,6 +101,22 @@ namespace GraphEditor
             if (m_inputView != null)
             {
                 m_inputView.SetData(data);
+            }
+        }
+
+        public void ShowInputView()
+        {
+            if (m_container != null)
+            {
+                m_container.ShowInputView();
+            }
+        }
+
+        public void HideInputView()
+        {
+            if (m_container != null)
+            {
+                m_container.HideInputView();
             }
         }
 
