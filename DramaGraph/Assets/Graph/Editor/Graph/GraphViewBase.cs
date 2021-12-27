@@ -24,6 +24,11 @@ namespace GraphEditor
             get { return m_edgeConnectorListener; }
         }
 
+        public SearchWindowProvider searchWindowProvider
+        {
+            get { return m_searchWindowProvider; }
+        }
+
         public void Init()
         {
             this.StretchToParentSize();
@@ -39,7 +44,6 @@ namespace GraphEditor
 
             m_edgeConnectorListener = new EdgeConnectorListener(m_searchWindowProvider);
 
-            
             IMGUIContainer toolbar = new IMGUIContainer(() =>
             {
                 GUILayout.BeginHorizontal(EditorStyles.toolbar);
@@ -53,6 +57,10 @@ namespace GraphEditor
                 GUILayout.EndHorizontal();
             });
             Add(toolbar);
+        }
+
+        public void InitSearchWindowProvider(Tree tree)
+        {
         }
 
         private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, GraphPortView connectPortView)

@@ -29,6 +29,7 @@ namespace GraphEditor
             m_context = context;
             m_view = new GraphNodeView();
             m_view.InitView(define);
+            m_view.actionOnGeometryChanged = OnGeometryChanged;
         }
 
         public void SetData(GraphNodeData data)
@@ -86,6 +87,14 @@ namespace GraphEditor
                 }
             }
             return null;
+        }
+
+        private void OnGeometryChanged()
+        {
+            if (m_data != null)
+            {
+                m_data.pos = m_view.GetPosition().position;
+            }
         }
 
         private GraphPort CreatePort(GraphPortDefine portDefine)

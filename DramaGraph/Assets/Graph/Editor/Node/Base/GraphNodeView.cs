@@ -10,9 +10,10 @@ namespace GraphEditor
     public class GraphNodeView : Node
     {
         protected VisualElement m_portInputContainerGroup;
-        protected GraphNodeData m_data;
 
         protected GraphNodeDefine m_nodeDefine;
+
+        public Action actionOnGeometryChanged;
 
         public void InitView(GraphNodeDefine define)
         {
@@ -30,7 +31,16 @@ namespace GraphEditor
             };
             Add(m_portInputContainerGroup);
             m_portInputContainerGroup.SendToBack();
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
             RefreshExpandedState();
+        }
+
+        private void OnGeometryChanged(GeometryChangedEvent evt)
+        {
+            if (actionOnGeometryChanged != null)
+            {
+                actionOnGeometryChanged();
+            }
         }
 
         public void AddPort(GraphPortView port, EGraphPortType portType)

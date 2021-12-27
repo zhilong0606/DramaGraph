@@ -21,6 +21,7 @@ namespace GraphEditor
         private List<GraphEdge> m_edgeList = new List<GraphEdge>();
         private List<GraphNodeDefine> m_nodeDefineList = new List<GraphNodeDefine>();
         private List<GraphPortHelper> m_portHelperList = new List<GraphPortHelper>();
+        private TreeNode<string> m_nodePathTree = new TreeNode<string>();
         private string m_assetGuid;
 
         public Action<TData> actionOnSaveData;
@@ -34,8 +35,8 @@ namespace GraphEditor
         {
             m_context = context;
             InitNodeDefine();
+            InitNodePathTree();
             InitPortHelper();
-            m_context.portHelperList = m_portHelperList;
             InitObject();
             InitView();
         }
@@ -55,6 +56,7 @@ namespace GraphEditor
             m_view.Init();
             m_view.actionOnSaveData = OnSaveData;
             m_view.funcOnCreateNode = OnCreateNode;
+            m_view.searchWindowProvider.nodePathTree = m_nodePathTree;
             m_view.edgeConnectorListener.actionOnEdgeCreated = OnEdgeCreated;
             m_view.edgeConnectorListener.actionOnEdgeRemoved = OnEdgeRemoved;
             m_context.edgeConnectorListener = m_view.edgeConnectorListener;
@@ -66,15 +68,42 @@ namespace GraphEditor
             using (FileStream stream = File.Open(m_context.nodeDefinePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefines));
-                try
+                //try
                 {
                     GraphNodeDefines defines = serialize.Deserialize(stream) as GraphNodeDefines;
                     m_nodeDefineList.AddRange(defines.nodeList);
                 }
-                catch
-                {
-                }
+                //catch
+                //{
+                //}
             }
+        }
+
+        private void InitNodePathTree()
+        {
+            foreach (GraphNodeDefine nodeDefine in m_nodeDefineList)
+            {
+                string path = nodeDefine.path;
+                string name = nodeDefine.name;
+                TreeNode<string> curTree = m_nodePathTree;
+                if (!string.IsNullOrEmpty(path))
+                {
+                    string[] splits = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string split in splits)
+                    {
+                        TreeNode<string> childNode = curTree.FindChildNodeByValue(path);
+                        if (childNode == null)
+                        {
+                            childNode = new TreeNode<string>(split);
+                            curTree.AddNode(childNode);
+                        }
+                        curTree = childNode;
+                    }
+                }
+                TreeNode<string> leafNode = new TreeNode<string>(name);
+                curTree.AddNode(leafNode);
+            }
+            m_context.nodePathTree = m_nodePathTree;
         }
 
         private void InitPortHelper()
@@ -100,6 +129,7 @@ namespace GraphEditor
                     }
                 }
             }
+            m_context.portHelperList = m_portHelperList;
         }
 
         public void SetData(TData data)

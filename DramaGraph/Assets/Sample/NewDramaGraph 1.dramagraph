@@ -1,0 +1,75 @@
+{
+    "m_serializableNodeDataList": [
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 2,\\n    \\\"value\\\": 0.0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1,\\n    \\\"value\\\": 0.0\\n}\"\n        }\n    ],\n    \"id\": 1,\n    \"pos\": {\n        \"x\": 368.0,\n        \"y\": 117.0\n    },\n    \"defineName\": \"TimeEntry\"\n}"
+        },
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataString\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 2,\\n    \\\"value\\\": \\\"Attack1\\\"\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 3,\\n    \\\"value\\\": 1.0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1\\n}\"\n        }\n    ],\n    \"id\": 2,\n    \"pos\": {\n        \"x\": 626.0,\n        \"y\": 280.0\n    },\n    \"defineName\": \"PlayAnimation\"\n}"
+        },
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 2,\\n    \\\"value\\\": 5.0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1,\\n    \\\"value\\\": 0.0\\n}\"\n        }\n    ],\n    \"id\": 3,\n    \"pos\": {\n        \"x\": 950.0,\n        \"y\": 102.0\n    },\n    \"defineName\": \"TimeEntry\"\n}"
+        },
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 2,\\n    \\\"value\\\": 0.0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1,\\n    \\\"value\\\": 0.0\\n}\"\n        }\n    ],\n    \"id\": 4,\n    \"pos\": {\n        \"x\": 1290.0,\n        \"y\": 374.0\n    },\n    \"defineName\": \"TimeEntry\"\n}"
+        },
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataString\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 2,\\n    \\\"value\\\": \\\"\\\"\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 3,\\n    \\\"value\\\": 1.0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1\\n}\"\n        }\n    ],\n    \"id\": 5,\n    \"pos\": {\n        \"x\": 1337.0,\n        \"y\": 158.0\n    },\n    \"defineName\": \"PlayAnimation\"\n}"
+        },
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataString\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 2,\\n    \\\"value\\\": \\\"Attack2\\\"\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataFloat\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 3,\\n    \\\"value\\\": 1.0\\n}\"\n        },\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 1\\n}\"\n        }\n    ],\n    \"id\": 6,\n    \"pos\": {\n        \"x\": 1016.0,\n        \"y\": 370.0\n    },\n    \"defineName\": \"PlayAnimation\"\n}"
+        },
+        {
+            "typeInfo": {
+                "fullName": "GraphEditor.GraphNodeData"
+            },
+            "JSONnodeData": "{\n    \"m_serializablePortDataList\": [\n        {\n            \"typeInfo\": {\n                \"fullName\": \"GraphEditor.GraphPortDataTrigger\"\n            },\n            \"JSONnodeData\": \"{\\n    \\\"id\\\": 0\\n}\"\n        }\n    ],\n    \"id\": 7,\n    \"pos\": {\n        \"x\": 1639.0,\n        \"y\": 208.0\n    },\n    \"defineName\": \"End\"\n}"
+        }
+    ],
+    "m_edgeDataList": [
+        {
+            "m_outputNodeId": 1,
+            "m_outputPortId": 0,
+            "m_inputNodeId": 2,
+            "m_inputPortId": 0
+        },
+        {
+            "m_outputNodeId": 3,
+            "m_outputPortId": 0,
+            "m_inputNodeId": 5,
+            "m_inputPortId": 0
+        },
+        {
+            "m_outputNodeId": 2,
+            "m_outputPortId": 1,
+            "m_inputNodeId": 6,
+            "m_inputPortId": 0
+        },
+        {
+            "m_outputNodeId": 5,
+            "m_outputPortId": 1,
+            "m_inputNodeId": 7,
+            "m_inputPortId": 0
+        }
+    ],
+    "owner": {
+        "instanceID": 0
+    }
+}

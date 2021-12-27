@@ -19,6 +19,8 @@ namespace GraphEditor
         [XmlElement]
         public string name;
         [XmlElement]
+        public string path;
+        [XmlElement]
         public List<GraphPortDefine> portList = new List<GraphPortDefine>();
     }
 
@@ -27,6 +29,8 @@ namespace GraphEditor
     {
         [XmlElement]
         public int id;
+        [XmlElement]
+        public int sortId;
         [XmlElement]
         public string name;
         [XmlElement]
@@ -55,6 +59,7 @@ namespace GraphEditor
         Float2,
         Float3,
         String,
+        Trigger,
     }
 
     public class GraphPortHelper
