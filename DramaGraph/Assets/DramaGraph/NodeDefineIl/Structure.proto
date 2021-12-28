@@ -1,0 +1,21 @@
+syntax = "proto3";
+package DramaScript;
+
+message DramaScriptDataEntry
+{
+}
+
+message DramaScriptDataExit
+{
+}
+
+message DramaScriptDataTimeEntry
+{
+	float Time = 1;
+}
+
+message DramaScriptDataPlayAnimation
+{
+	string AnimationName = 1;
+	float Speed = 2;
+}

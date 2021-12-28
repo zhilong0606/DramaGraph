@@ -1,13 +1,8 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
 
 namespace GraphEditor.Drama
@@ -61,7 +56,7 @@ namespace GraphEditor.Drama
                 titleContent = new GUIContent(asset.name.Split('/').Last());
                 Repaint();
             }
-            catch (Exception)
+            catch (System.Exception)
             {
                 throw;
             }

@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
+using Tool.Export;
+using Tool.Export.Proto;
+using Tool.Export.Structure;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.ProjectWindowCallback;
@@ -12,6 +16,54 @@ namespace GraphEditor.Drama
     public static class DramaGraphTools
     {
         private const string m_fileExtension = "dramagraph";
+
+        [MenuItem("Tools/Drama Script/Generate Codes", false)]
+        public static void GenerateCodes()
+        {
+            using (FileStream stream = File.Open("Assets/DramaGraph/NodeDefine/NodeDefines.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            {
+                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefines));
+                //try
+                {
+                    ExportContext context = new ExportContext();
+                    context.ilExportPath = "Assets/DramaGraph/NodeDefineIl/";
+                    context.structureExportPath = "Assets/DramaGraph/NodeDefineStructure/";
+                    context.namespaceStr = "DramaScript";
+                    context.needExport = true;
+                    context.extensionStr = "binary";
+                    context.prefixStr = "DramaScriptData";
+                    GraphNodeDefines defines = serialize.Deserialize(stream) as GraphNodeDefines;
+                    foreach (var nodeDefine in defines.nodeList)
+                    {
+                        ClassStructureInfo structureInfo = new ClassStructureInfo(nodeDefine.name);
+                        foreach (var portDefine in nodeDefine.portList)
+                        {
+                            if (!portDefine.isTrigger)
+                            {
+                                EBasicStructureType structureType = EBasicStructureType.Bool;
+                                switch (portDefine.valueType)
+                                {
+                                    case EGraphPortValueType.Float:
+                                        structureType = EBasicStructureType.Single;
+                                        break;
+                                    case EGraphPortValueType.String:
+                                        structureType = EBasicStructureType.String;
+                                        break;
+                                }
+                                BasicStructureInfo memberStructureInfo = context.structureManager.GetBasicStructureInfo(structureType);
+                                structureInfo.AddMember(memberStructureInfo, portDefine.name);
+                            }
+                        }
+                        context.structureManager.AddStructureInfo(structureInfo);
+                    }
+                    ProtoStructureExporter exporter = new ProtoStructureExporter();
+                    exporter.Export(context);
+                }
+                //catch
+                //{
+                //}
+            }
+        }
 
         [MenuItem("Assets/Create/Drama Script/Skill Drama Graph", false, 208)]
         public static void CreateSkillDramaGraph()

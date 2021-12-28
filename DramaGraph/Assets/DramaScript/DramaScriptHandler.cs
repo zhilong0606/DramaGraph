@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Use OnWillCreateAsset
-public class DramaScriptHandler : MonoBehaviour
+namespace DramaScript
 {
+    public class DramaScriptHandler : MonoBehaviour
+    {
+
+    }
 }
