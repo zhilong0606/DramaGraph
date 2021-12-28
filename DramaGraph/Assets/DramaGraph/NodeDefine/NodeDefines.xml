@@ -2,6 +2,32 @@
 <NodeDefines xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <nodeList>
     <GraphNodeDefine>
+      <name>Entry</name>
+      <path>Entry</path>
+      <portList>
+        <id>0</id>
+        <sortId>0</sortId>
+        <name></name>
+        <valueType>Trigger</valueType>
+        <portType>Output</portType>
+        <isTrigger>true</isTrigger>
+      </portList>
+    </GraphNodeDefine>
+    
+    <GraphNodeDefine>
+      <name>Exit</name>
+      <path>End</path>
+      <portList>
+        <id>0</id>
+        <sortId>0</sortId>
+        <name></name>
+        <valueType>Trigger</valueType>
+        <portType>Input</portType>
+        <isTrigger>true</isTrigger>
+      </portList>
+    </GraphNodeDefine>
+    
+    <GraphNodeDefine>
       <name>TimeEntry</name>
       <path>Entry</path>
       <portList>
@@ -19,19 +45,6 @@
         <valueType>Float</valueType>
         <portType>Input</portType>
         <isTrigger>false</isTrigger>
-      </portList>
-    </GraphNodeDefine>
-    
-    <GraphNodeDefine>
-      <name>End</name>
-      <path>End</path>
-      <portList>
-        <id>0</id>
-        <sortId>0</sortId>
-        <name>Start</name>
-        <valueType>Trigger</valueType>
-        <portType>Input</portType>
-        <isTrigger>true</isTrigger>
       </portList>
     </GraphNodeDefine>
     

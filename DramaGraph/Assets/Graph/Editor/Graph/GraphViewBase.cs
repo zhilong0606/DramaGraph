@@ -16,7 +16,9 @@ namespace GraphEditor
         private EdgeConnectorListener m_edgeConnectorListener;
         private SearchWindowProvider m_searchWindowProvider;
 
-        public Action<TData> actionOnSaveData;
+        public Action actionOnSaveBtnClicked;
+        public Action actionOnExportBtnClicked;
+        public Action<List<ISelectable>> actionOnDeleteSelection;
         public Func<string, Vector2, GraphPortView, bool> funcOnCreateNode;
 
         public EdgeConnectorListener edgeConnectorListener
@@ -41,17 +43,26 @@ namespace GraphEditor
             m_searchWindowProvider.funcOnSelectEntry = OnMenuWindowProviderSelectEntry;
 
             nodeCreationRequest += context => { m_searchWindowProvider.Open(context.screenMousePosition); };
+            serializeGraphElements += OnSerializeGraphElements;
+            unserializeAndPaste += OnUnserializeAndPaste;
 
             m_edgeConnectorListener = new EdgeConnectorListener(m_searchWindowProvider);
 
             IMGUIContainer toolbar = new IMGUIContainer(() =>
             {
                 GUILayout.BeginHorizontal(EditorStyles.toolbar);
-                if (GUILayout.Button("Save Asset", EditorStyles.toolbarButton))
+                if (GUILayout.Button("Save", EditorStyles.toolbarButton))
                 {
-                    if (actionOnSaveData != null)
+                    if (actionOnSaveBtnClicked != null)
                     {
-                        actionOnSaveData(m_data);
+                        actionOnSaveBtnClicked();
+                    }
+                }
+                if (GUILayout.Button("Export", EditorStyles.toolbarButton))
+                {
+                    if (actionOnExportBtnClicked != null)
+                    {
+                        actionOnExportBtnClicked();
                     }
                 }
                 GUILayout.EndHorizontal();
@@ -59,8 +70,23 @@ namespace GraphEditor
             Add(toolbar);
         }
 
-        public void InitSearchWindowProvider(Tree tree)
+        private string OnSerializeGraphElements(IEnumerable<GraphElement> elements)
         {
+            throw new NotImplementedException();
+        }
+
+        private void OnUnserializeAndPaste(string operationname, string data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override EventPropagation DeleteSelection()
+        {
+            if (actionOnDeleteSelection != null)
+            {
+                actionOnDeleteSelection(selection);
+            }
+            return base.DeleteSelection();
         }
 
         private bool OnMenuWindowProviderSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context, GraphPortView connectPortView)
@@ -100,6 +126,16 @@ namespace GraphEditor
         }
 
         protected override bool canDeleteSelection
+        {
+            get { return true; }
+        }
+
+        protected override bool canCopySelection
+        {
+            get { return true; }
+        }
+
+        protected override bool canPaste
         {
             get { return true; }
         }

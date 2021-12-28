@@ -12,11 +12,18 @@ namespace GraphEditor
         protected VisualElement m_portInputContainerGroup;
 
         protected GraphNodeDefine m_nodeDefine;
+        protected GraphNode m_owner;
 
         public Action actionOnGeometryChanged;
 
-        public void InitView(GraphNodeDefine define)
+        public GraphNode owner
         {
+            get { return m_owner; }
+        }
+
+        public void InitView(GraphNode owner, GraphNodeDefine define)
+        {
+            m_owner = owner;
             m_nodeDefine = define;
             styleSheets.Add(Resources.Load<StyleSheet>("Styles/GraphNodeView"));
             AddToClassList("GraphNodeView");

@@ -23,12 +23,17 @@ namespace GraphEditor
             get { return m_view; }
         }
 
+        public List<GraphPort> portList
+        {
+            get { return m_portList; }
+        }
+
         public void Init(GraphNodeDefine define, GraphNodeContext context)
         {
             m_define = define;
             m_context = context;
             m_view = new GraphNodeView();
-            m_view.InitView(define);
+            m_view.InitView(this, define);
             m_view.actionOnGeometryChanged = OnGeometryChanged;
         }
 

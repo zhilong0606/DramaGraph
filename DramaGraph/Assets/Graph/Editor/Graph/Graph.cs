@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -25,6 +26,7 @@ namespace GraphEditor
         private string m_assetGuid;
 
         public Action<TData> actionOnSaveData;
+        public Action<TData> actionOnExportData;
 
         public GraphView<TData> view
         {
@@ -54,8 +56,10 @@ namespace GraphEditor
         {
             m_view = Activator.CreateInstance(typeof(TView)) as TView;
             m_view.Init();
-            m_view.actionOnSaveData = OnSaveData;
+            m_view.actionOnSaveBtnClicked = OnSaveData;
+            m_view.actionOnExportBtnClicked = OnExportData;
             m_view.funcOnCreateNode = OnCreateNode;
+            m_view.actionOnDeleteSelection = OnDeleteSelection;
             m_view.searchWindowProvider.nodePathTree = m_nodePathTree;
             m_view.edgeConnectorListener.actionOnEdgeCreated = OnEdgeCreated;
             m_view.edgeConnectorListener.actionOnEdgeRemoved = OnEdgeRemoved;
@@ -147,11 +151,19 @@ namespace GraphEditor
             }
         }
 
-        private void OnSaveData(TData data)
+        private void OnSaveData()
         {
             if (actionOnSaveData != null)
             {
-                actionOnSaveData(data);
+                actionOnSaveData(m_data);
+            }
+        }
+
+        private void OnExportData()
+        {
+            if (actionOnExportData != null)
+            {
+                actionOnExportData(m_data);
             }
         }
 
@@ -330,6 +342,65 @@ namespace GraphEditor
                 }
             }
             return null;
+        }
+
+        private void OnDeleteSelection(List<ISelectable> list)
+        {
+            foreach (var item in list)
+            {
+                GraphEdgeView edgeView = item as GraphEdgeView;
+                if (edgeView != null)
+                {
+                    GraphEdge edge = edgeView.owner;
+                    if(edge.inputPort != null)
+                    {
+                        edge.inputPort.RemoveEdge(edge);
+                        edge.inputPort = null;
+                    }
+                    if (edge.outputPort != null)
+                    {
+                        edge.outputPort.RemoveEdge(edge);
+                        edge.outputPort = null;
+                    }
+                    m_edgeList.Remove(edge);
+                    m_data.RemoveEdge(edge.data);
+                }
+            }
+            List<GraphElement> deleteEdgeList = new List<GraphElement>();
+            foreach (var item in list)
+            {
+                GraphNodeView nodeView = item as GraphNodeView;
+                if (nodeView != null)
+                {
+                    GraphNode node = nodeView.owner;
+                    m_nodeList.Remove(node);
+                    m_data.RemoveNode(node.data);
+                    foreach (GraphPort port in node.portList)
+                    {
+                        List<GraphEdge> edgeList = new List<GraphEdge>(port.edgeList);
+                        foreach (GraphEdge edge in edgeList)
+                        {
+                            if (m_edgeList.Contains(edge) && !deleteEdgeList.Contains(edge.view))
+                            {
+                                deleteEdgeList.Add(edge.view);
+                                if (edge.inputPort != null)
+                                {
+                                    edge.inputPort.RemoveEdge(edge);
+                                    edge.inputPort = null;
+                                }
+                                if (edge.outputPort != null)
+                                {
+                                    edge.outputPort.RemoveEdge(edge);
+                                    edge.outputPort = null;
+                                }
+                                m_edgeList.Remove(edge);
+                                m_data.RemoveEdge(edge.data);
+                            }
+                        }
+                    }
+                }
+            }
+            m_view.DeleteElements(deleteEdgeList);
         }
 
         private bool TryGetPortInfo(GraphPort port, out int nodeId, out int portId)

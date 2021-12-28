@@ -14,6 +14,11 @@ namespace GraphEditor
         private GraphNode m_owner;
         private List<GraphEdge> m_edgeList = new List<GraphEdge>();
 
+        public List<GraphEdge> edgeList
+        {
+            get { return m_edgeList; }
+        }
+
         public Action actionOnPortViewGeometryChanged;
 
         public GraphPortDefine define

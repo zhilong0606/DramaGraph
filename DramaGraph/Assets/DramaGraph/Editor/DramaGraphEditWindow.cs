@@ -54,6 +54,7 @@ namespace GraphEditor.Drama
                 Graph<DramaGraphData, DramaGraphView> graph = new Graph<DramaGraphData, DramaGraphView>();
                 graph.Init(context);
                 graph.actionOnSaveData = OnSaveGraphData;
+                graph.actionOnSaveData = OnExportGraphData;
                 graph.SetData(graphData);
 
                 rootVisualElement.Add(graph.view);
@@ -74,6 +75,10 @@ namespace GraphEditor.Drama
             if (FileUtility.WriteToDisk(path, graphData))
                 AssetDatabase.ImportAsset(path);
             //graphObject.isDirty = false;
+        }
+
+        private void OnExportGraphData(DramaGraphData graphData)
+        {
         }
     }
 }
