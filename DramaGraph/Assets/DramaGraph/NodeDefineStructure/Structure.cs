@@ -23,28 +23,39 @@ namespace DramaScript {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ci5Bc3NldHMvRHJhbWFHcmFwaC9Ob2RlRGVmaW5lSWwvU3RydWN0dXJlLnBy",
-            "b3RvEgtEcmFtYVNjcmlwdCIWChREcmFtYVNjcmlwdERhdGFFbnRyeSIVChNE",
-            "cmFtYVNjcmlwdERhdGFFeGl0IigKGERyYW1hU2NyaXB0RGF0YVRpbWVFbnRy",
-            "eRIMCgRUaW1lGAEgASgCIkQKHERyYW1hU2NyaXB0RGF0YVBsYXlBbmltYXRp",
-            "b24SFQoNQW5pbWF0aW9uTmFtZRgBIAEoCRINCgVTcGVlZBgCIAEoAmIGcHJv",
-            "dG8z"));
+            "b3RvEgtEcmFtYVNjcmlwdCJBChxEcmFtYVNjcmlwdE5vZGVEYXRhQ29udGFp",
+            "bmVyEhAKCHR5cGVOYW1lGAEgASgJEg8KB2J1ZmZlcnMYAiABKAwiawoTRHJh",
+            "bWFTY3JpcHRFZGdlRGF0YRITCgtpbnB1dE5vZGVJZBgBIAEoBRITCgtpbnB1",
+            "dFBvcnRJZBgCIAEoBRIUCgxvdXRwdXROb2RlSWQYAyABKAUSFAoMb3V0cHV0",
+            "UG9ydElkGAQgASgFIpABChREcmFtYVNjcmlwdEdyYXBoRGF0YRJEChFub2Rl",
+            "Q29udGFpbmVyTGlzdBgBIAMoCzIpLkRyYW1hU2NyaXB0LkRyYW1hU2NyaXB0",
+            "Tm9kZURhdGFDb250YWluZXISMgoIZWRnZUxpc3QYAiADKAsyIC5EcmFtYVNj",
+            "cmlwdC5EcmFtYVNjcmlwdEVkZ2VEYXRhIiYKGERyYW1hU2NyaXB0Tm9kZURh",
+            "dGFFbnRyeRIKCgJpZBgBIAEoBSIlChdEcmFtYVNjcmlwdE5vZGVEYXRhRXhp",
+            "dBIKCgJpZBgBIAEoBSI4ChxEcmFtYVNjcmlwdE5vZGVEYXRhVGltZUVudHJ5",
+            "EgoKAmlkGAEgASgFEgwKBFRpbWUYAiABKAIiVAogRHJhbWFTY3JpcHROb2Rl",
+            "RGF0YVBsYXlBbmltYXRpb24SCgoCaWQYASABKAUSFQoNQW5pbWF0aW9uTmFt",
+            "ZRgCIAEoCRINCgVTcGVlZBgDIAEoAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptDataEntry), global::DramaScript.DramaScriptDataEntry.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptDataExit), global::DramaScript.DramaScriptDataExit.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptDataTimeEntry), global::DramaScript.DramaScriptDataTimeEntry.Parser, new[]{ "Time" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptDataPlayAnimation), global::DramaScript.DramaScriptDataPlayAnimation.Parser, new[]{ "AnimationName", "Speed" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataContainer), global::DramaScript.DramaScriptNodeDataContainer.Parser, new[]{ "TypeName", "Buffers" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptEdgeData), global::DramaScript.DramaScriptEdgeData.Parser, new[]{ "InputNodeId", "InputPortId", "OutputNodeId", "OutputPortId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptGraphData), global::DramaScript.DramaScriptGraphData.Parser, new[]{ "NodeContainerList", "EdgeList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataEntry), global::DramaScript.DramaScriptNodeDataEntry.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataExit), global::DramaScript.DramaScriptNodeDataExit.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataTimeEntry), global::DramaScript.DramaScriptNodeDataTimeEntry.Parser, new[]{ "Id", "Time" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataPlayAnimation), global::DramaScript.DramaScriptNodeDataPlayAnimation.Parser, new[]{ "Id", "AnimationName", "Speed" }, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class DramaScriptDataEntry : pb::IMessage<DramaScriptDataEntry> {
-    private static readonly pb::MessageParser<DramaScriptDataEntry> _parser = new pb::MessageParser<DramaScriptDataEntry>(() => new DramaScriptDataEntry());
+  public sealed partial class DramaScriptNodeDataContainer : pb::IMessage<DramaScriptNodeDataContainer> {
+    private static readonly pb::MessageParser<DramaScriptNodeDataContainer> _parser = new pb::MessageParser<DramaScriptNodeDataContainer>(() => new DramaScriptNodeDataContainer());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DramaScriptDataEntry> Parser { get { return _parser; } }
+    public static pb::MessageParser<DramaScriptNodeDataContainer> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -57,40 +68,68 @@ namespace DramaScript {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataEntry() {
+    public DramaScriptNodeDataContainer() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataEntry(DramaScriptDataEntry other) : this() {
+    public DramaScriptNodeDataContainer(DramaScriptNodeDataContainer other) : this() {
+      typeName_ = other.typeName_;
+      buffers_ = other.buffers_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataEntry Clone() {
-      return new DramaScriptDataEntry(this);
+    public DramaScriptNodeDataContainer Clone() {
+      return new DramaScriptNodeDataContainer(this);
+    }
+
+    /// <summary>Field number for the "typeName" field.</summary>
+    public const int TypeNameFieldNumber = 1;
+    private string typeName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string TypeName {
+      get { return typeName_; }
+      set {
+        typeName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "buffers" field.</summary>
+    public const int BuffersFieldNumber = 2;
+    private pb::ByteString buffers_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString Buffers {
+      get { return buffers_; }
+      set {
+        buffers_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as DramaScriptDataEntry);
+      return Equals(other as DramaScriptNodeDataContainer);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DramaScriptDataEntry other) {
+    public bool Equals(DramaScriptNodeDataContainer other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (TypeName != other.TypeName) return false;
+      if (Buffers != other.Buffers) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (TypeName.Length != 0) hash ^= TypeName.GetHashCode();
+      if (Buffers.Length != 0) hash ^= Buffers.GetHashCode();
       return hash;
     }
 
@@ -101,18 +140,38 @@ namespace DramaScript {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (TypeName.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(TypeName);
+      }
+      if (Buffers.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteBytes(Buffers);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (TypeName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TypeName);
+      }
+      if (Buffers.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Buffers);
+      }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DramaScriptDataEntry other) {
+    public void MergeFrom(DramaScriptNodeDataContainer other) {
       if (other == null) {
         return;
+      }
+      if (other.TypeName.Length != 0) {
+        TypeName = other.TypeName;
+      }
+      if (other.Buffers.Length != 0) {
+        Buffers = other.Buffers;
       }
     }
 
@@ -124,16 +183,24 @@ namespace DramaScript {
           default:
             input.SkipLastField();
             break;
+          case 10: {
+            TypeName = input.ReadString();
+            break;
+          }
+          case 18: {
+            Buffers = input.ReadBytes();
+            break;
+          }
         }
       }
     }
 
   }
 
-  public sealed partial class DramaScriptDataExit : pb::IMessage<DramaScriptDataExit> {
-    private static readonly pb::MessageParser<DramaScriptDataExit> _parser = new pb::MessageParser<DramaScriptDataExit>(() => new DramaScriptDataExit());
+  public sealed partial class DramaScriptEdgeData : pb::IMessage<DramaScriptEdgeData> {
+    private static readonly pb::MessageParser<DramaScriptEdgeData> _parser = new pb::MessageParser<DramaScriptEdgeData>(() => new DramaScriptEdgeData());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DramaScriptDataExit> Parser { get { return _parser; } }
+    public static pb::MessageParser<DramaScriptEdgeData> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -146,40 +213,96 @@ namespace DramaScript {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataExit() {
+    public DramaScriptEdgeData() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataExit(DramaScriptDataExit other) : this() {
+    public DramaScriptEdgeData(DramaScriptEdgeData other) : this() {
+      inputNodeId_ = other.inputNodeId_;
+      inputPortId_ = other.inputPortId_;
+      outputNodeId_ = other.outputNodeId_;
+      outputPortId_ = other.outputPortId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataExit Clone() {
-      return new DramaScriptDataExit(this);
+    public DramaScriptEdgeData Clone() {
+      return new DramaScriptEdgeData(this);
+    }
+
+    /// <summary>Field number for the "inputNodeId" field.</summary>
+    public const int InputNodeIdFieldNumber = 1;
+    private int inputNodeId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int InputNodeId {
+      get { return inputNodeId_; }
+      set {
+        inputNodeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "inputPortId" field.</summary>
+    public const int InputPortIdFieldNumber = 2;
+    private int inputPortId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int InputPortId {
+      get { return inputPortId_; }
+      set {
+        inputPortId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "outputNodeId" field.</summary>
+    public const int OutputNodeIdFieldNumber = 3;
+    private int outputNodeId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int OutputNodeId {
+      get { return outputNodeId_; }
+      set {
+        outputNodeId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "outputPortId" field.</summary>
+    public const int OutputPortIdFieldNumber = 4;
+    private int outputPortId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int OutputPortId {
+      get { return outputPortId_; }
+      set {
+        outputPortId_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as DramaScriptDataExit);
+      return Equals(other as DramaScriptEdgeData);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DramaScriptDataExit other) {
+    public bool Equals(DramaScriptEdgeData other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (InputNodeId != other.InputNodeId) return false;
+      if (InputPortId != other.InputPortId) return false;
+      if (OutputNodeId != other.OutputNodeId) return false;
+      if (OutputPortId != other.OutputPortId) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (InputNodeId != 0) hash ^= InputNodeId.GetHashCode();
+      if (InputPortId != 0) hash ^= InputPortId.GetHashCode();
+      if (OutputNodeId != 0) hash ^= OutputNodeId.GetHashCode();
+      if (OutputPortId != 0) hash ^= OutputPortId.GetHashCode();
       return hash;
     }
 
@@ -190,18 +313,58 @@ namespace DramaScript {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (InputNodeId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(InputNodeId);
+      }
+      if (InputPortId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(InputPortId);
+      }
+      if (OutputNodeId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(OutputNodeId);
+      }
+      if (OutputPortId != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(OutputPortId);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (InputNodeId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InputNodeId);
+      }
+      if (InputPortId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InputPortId);
+      }
+      if (OutputNodeId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OutputNodeId);
+      }
+      if (OutputPortId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OutputPortId);
+      }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DramaScriptDataExit other) {
+    public void MergeFrom(DramaScriptEdgeData other) {
       if (other == null) {
         return;
+      }
+      if (other.InputNodeId != 0) {
+        InputNodeId = other.InputNodeId;
+      }
+      if (other.InputPortId != 0) {
+        InputPortId = other.InputPortId;
+      }
+      if (other.OutputNodeId != 0) {
+        OutputNodeId = other.OutputNodeId;
+      }
+      if (other.OutputPortId != 0) {
+        OutputPortId = other.OutputPortId;
       }
     }
 
@@ -213,16 +376,32 @@ namespace DramaScript {
           default:
             input.SkipLastField();
             break;
+          case 8: {
+            InputNodeId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            InputPortId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            OutputNodeId = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            OutputPortId = input.ReadInt32();
+            break;
+          }
         }
       }
     }
 
   }
 
-  public sealed partial class DramaScriptDataTimeEntry : pb::IMessage<DramaScriptDataTimeEntry> {
-    private static readonly pb::MessageParser<DramaScriptDataTimeEntry> _parser = new pb::MessageParser<DramaScriptDataTimeEntry>(() => new DramaScriptDataTimeEntry());
+  public sealed partial class DramaScriptGraphData : pb::IMessage<DramaScriptGraphData> {
+    private static readonly pb::MessageParser<DramaScriptGraphData> _parser = new pb::MessageParser<DramaScriptGraphData>(() => new DramaScriptGraphData());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DramaScriptDataTimeEntry> Parser { get { return _parser; } }
+    public static pb::MessageParser<DramaScriptGraphData> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -235,24 +414,399 @@ namespace DramaScript {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataTimeEntry() {
+    public DramaScriptGraphData() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataTimeEntry(DramaScriptDataTimeEntry other) : this() {
+    public DramaScriptGraphData(DramaScriptGraphData other) : this() {
+      nodeContainerList_ = other.nodeContainerList_.Clone();
+      edgeList_ = other.edgeList_.Clone();
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptGraphData Clone() {
+      return new DramaScriptGraphData(this);
+    }
+
+    /// <summary>Field number for the "nodeContainerList" field.</summary>
+    public const int NodeContainerListFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::DramaScript.DramaScriptNodeDataContainer> _repeated_nodeContainerList_codec
+        = pb::FieldCodec.ForMessage(10, global::DramaScript.DramaScriptNodeDataContainer.Parser);
+    private readonly pbc::RepeatedField<global::DramaScript.DramaScriptNodeDataContainer> nodeContainerList_ = new pbc::RepeatedField<global::DramaScript.DramaScriptNodeDataContainer>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::DramaScript.DramaScriptNodeDataContainer> NodeContainerList {
+      get { return nodeContainerList_; }
+    }
+
+    /// <summary>Field number for the "edgeList" field.</summary>
+    public const int EdgeListFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::DramaScript.DramaScriptEdgeData> _repeated_edgeList_codec
+        = pb::FieldCodec.ForMessage(18, global::DramaScript.DramaScriptEdgeData.Parser);
+    private readonly pbc::RepeatedField<global::DramaScript.DramaScriptEdgeData> edgeList_ = new pbc::RepeatedField<global::DramaScript.DramaScriptEdgeData>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::DramaScript.DramaScriptEdgeData> EdgeList {
+      get { return edgeList_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DramaScriptGraphData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DramaScriptGraphData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!nodeContainerList_.Equals(other.nodeContainerList_)) return false;
+      if(!edgeList_.Equals(other.edgeList_)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= nodeContainerList_.GetHashCode();
+      hash ^= edgeList_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      nodeContainerList_.WriteTo(output, _repeated_nodeContainerList_codec);
+      edgeList_.WriteTo(output, _repeated_edgeList_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += nodeContainerList_.CalculateSize(_repeated_nodeContainerList_codec);
+      size += edgeList_.CalculateSize(_repeated_edgeList_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DramaScriptGraphData other) {
+      if (other == null) {
+        return;
+      }
+      nodeContainerList_.Add(other.nodeContainerList_);
+      edgeList_.Add(other.edgeList_);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            nodeContainerList_.AddEntriesFrom(input, _repeated_nodeContainerList_codec);
+            break;
+          }
+          case 18: {
+            edgeList_.AddEntriesFrom(input, _repeated_edgeList_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DramaScriptNodeDataEntry : pb::IMessage<DramaScriptNodeDataEntry> {
+    private static readonly pb::MessageParser<DramaScriptNodeDataEntry> _parser = new pb::MessageParser<DramaScriptNodeDataEntry>(() => new DramaScriptNodeDataEntry());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DramaScriptNodeDataEntry> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataEntry() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataEntry(DramaScriptNodeDataEntry other) : this() {
+      id_ = other.id_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataEntry Clone() {
+      return new DramaScriptNodeDataEntry(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DramaScriptNodeDataEntry);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DramaScriptNodeDataEntry other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DramaScriptNodeDataEntry other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DramaScriptNodeDataExit : pb::IMessage<DramaScriptNodeDataExit> {
+    private static readonly pb::MessageParser<DramaScriptNodeDataExit> _parser = new pb::MessageParser<DramaScriptNodeDataExit>(() => new DramaScriptNodeDataExit());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DramaScriptNodeDataExit> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataExit() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataExit(DramaScriptNodeDataExit other) : this() {
+      id_ = other.id_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataExit Clone() {
+      return new DramaScriptNodeDataExit(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DramaScriptNodeDataExit);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DramaScriptNodeDataExit other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DramaScriptNodeDataExit other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DramaScriptNodeDataTimeEntry : pb::IMessage<DramaScriptNodeDataTimeEntry> {
+    private static readonly pb::MessageParser<DramaScriptNodeDataTimeEntry> _parser = new pb::MessageParser<DramaScriptNodeDataTimeEntry>(() => new DramaScriptNodeDataTimeEntry());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DramaScriptNodeDataTimeEntry> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataTimeEntry() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataTimeEntry(DramaScriptNodeDataTimeEntry other) : this() {
+      id_ = other.id_;
       time_ = other.time_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataTimeEntry Clone() {
-      return new DramaScriptDataTimeEntry(this);
+    public DramaScriptNodeDataTimeEntry Clone() {
+      return new DramaScriptNodeDataTimeEntry(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
     }
 
     /// <summary>Field number for the "Time" field.</summary>
-    public const int TimeFieldNumber = 1;
+    public const int TimeFieldNumber = 2;
     private float time_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float Time {
@@ -264,17 +818,18 @@ namespace DramaScript {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as DramaScriptDataTimeEntry);
+      return Equals(other as DramaScriptNodeDataTimeEntry);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DramaScriptDataTimeEntry other) {
+    public bool Equals(DramaScriptNodeDataTimeEntry other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Id != other.Id) return false;
       if (Time != other.Time) return false;
       return true;
     }
@@ -282,6 +837,7 @@ namespace DramaScript {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (Time != 0F) hash ^= Time.GetHashCode();
       return hash;
     }
@@ -293,8 +849,12 @@ namespace DramaScript {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
       if (Time != 0F) {
-        output.WriteRawTag(13);
+        output.WriteRawTag(21);
         output.WriteFloat(Time);
       }
     }
@@ -302,6 +862,9 @@ namespace DramaScript {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
       if (Time != 0F) {
         size += 1 + 4;
       }
@@ -309,9 +872,12 @@ namespace DramaScript {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DramaScriptDataTimeEntry other) {
+    public void MergeFrom(DramaScriptNodeDataTimeEntry other) {
       if (other == null) {
         return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
       }
       if (other.Time != 0F) {
         Time = other.Time;
@@ -326,7 +892,11 @@ namespace DramaScript {
           default:
             input.SkipLastField();
             break;
-          case 13: {
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
+          case 21: {
             Time = input.ReadFloat();
             break;
           }
@@ -336,14 +906,14 @@ namespace DramaScript {
 
   }
 
-  public sealed partial class DramaScriptDataPlayAnimation : pb::IMessage<DramaScriptDataPlayAnimation> {
-    private static readonly pb::MessageParser<DramaScriptDataPlayAnimation> _parser = new pb::MessageParser<DramaScriptDataPlayAnimation>(() => new DramaScriptDataPlayAnimation());
+  public sealed partial class DramaScriptNodeDataPlayAnimation : pb::IMessage<DramaScriptNodeDataPlayAnimation> {
+    private static readonly pb::MessageParser<DramaScriptNodeDataPlayAnimation> _parser = new pb::MessageParser<DramaScriptNodeDataPlayAnimation>(() => new DramaScriptNodeDataPlayAnimation());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DramaScriptDataPlayAnimation> Parser { get { return _parser; } }
+    public static pb::MessageParser<DramaScriptNodeDataPlayAnimation> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[3]; }
+      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -352,25 +922,37 @@ namespace DramaScript {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataPlayAnimation() {
+    public DramaScriptNodeDataPlayAnimation() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataPlayAnimation(DramaScriptDataPlayAnimation other) : this() {
+    public DramaScriptNodeDataPlayAnimation(DramaScriptNodeDataPlayAnimation other) : this() {
+      id_ = other.id_;
       animationName_ = other.animationName_;
       speed_ = other.speed_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptDataPlayAnimation Clone() {
-      return new DramaScriptDataPlayAnimation(this);
+    public DramaScriptNodeDataPlayAnimation Clone() {
+      return new DramaScriptNodeDataPlayAnimation(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
     }
 
     /// <summary>Field number for the "AnimationName" field.</summary>
-    public const int AnimationNameFieldNumber = 1;
+    public const int AnimationNameFieldNumber = 2;
     private string animationName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string AnimationName {
@@ -381,7 +963,7 @@ namespace DramaScript {
     }
 
     /// <summary>Field number for the "Speed" field.</summary>
-    public const int SpeedFieldNumber = 2;
+    public const int SpeedFieldNumber = 3;
     private float speed_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public float Speed {
@@ -393,17 +975,18 @@ namespace DramaScript {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as DramaScriptDataPlayAnimation);
+      return Equals(other as DramaScriptNodeDataPlayAnimation);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DramaScriptDataPlayAnimation other) {
+    public bool Equals(DramaScriptNodeDataPlayAnimation other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Id != other.Id) return false;
       if (AnimationName != other.AnimationName) return false;
       if (Speed != other.Speed) return false;
       return true;
@@ -412,6 +995,7 @@ namespace DramaScript {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (AnimationName.Length != 0) hash ^= AnimationName.GetHashCode();
       if (Speed != 0F) hash ^= Speed.GetHashCode();
       return hash;
@@ -424,12 +1008,16 @@ namespace DramaScript {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
       if (AnimationName.Length != 0) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteString(AnimationName);
       }
       if (Speed != 0F) {
-        output.WriteRawTag(21);
+        output.WriteRawTag(29);
         output.WriteFloat(Speed);
       }
     }
@@ -437,6 +1025,9 @@ namespace DramaScript {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
       if (AnimationName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AnimationName);
       }
@@ -447,9 +1038,12 @@ namespace DramaScript {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DramaScriptDataPlayAnimation other) {
+    public void MergeFrom(DramaScriptNodeDataPlayAnimation other) {
       if (other == null) {
         return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
       }
       if (other.AnimationName.Length != 0) {
         AnimationName = other.AnimationName;
@@ -467,11 +1061,15 @@ namespace DramaScript {
           default:
             input.SkipLastField();
             break;
-          case 10: {
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
+          case 18: {
             AnimationName = input.ReadString();
             break;
           }
-          case 21: {
+          case 29: {
             Speed = input.ReadFloat();
             break;
           }

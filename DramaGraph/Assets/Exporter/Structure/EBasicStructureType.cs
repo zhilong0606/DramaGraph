@@ -16,5 +16,6 @@ namespace Tool.Export.Structure
         Single,
         Double,
         String,
+        Bytes,
     }
 }

@@ -20,6 +20,7 @@ namespace Tool.Export.Structure
                 {(int)EBasicStructureType.Single, "float" },
                 {(int)EBasicStructureType.Double, "double" },
                 {(int)EBasicStructureType.String, "string" },
+                {(int)EBasicStructureType.Bytes, "bytes" },
             };
             foreach (var kv in basicNameMap)
             {

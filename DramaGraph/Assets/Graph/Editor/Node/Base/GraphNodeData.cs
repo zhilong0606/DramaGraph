@@ -34,6 +34,18 @@ namespace GraphEditor
             return null;
         }
 
+        public GraphPortData GetPortData(string name)
+        {
+            for (int i = 0; i < m_portList.Count; ++i)
+            {
+                if (m_portList[i] != null && m_portList[i].id == id)
+                {
+                    return m_portList[i];
+                }
+            }
+            return null;
+        }
+
         public void AddPort(GraphPortData portData)
         {
             m_portList.Add(portData);

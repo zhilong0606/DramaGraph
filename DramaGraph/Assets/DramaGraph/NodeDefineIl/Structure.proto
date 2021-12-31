@@ -1,21 +1,45 @@
 syntax = "proto3";
 package DramaScript;
 
-message DramaScriptDataEntry
+message DramaScriptNodeDataContainer
 {
+	string typeName = 1;
+	bytes buffers = 2;
 }
 
-message DramaScriptDataExit
+message DramaScriptEdgeData
 {
+	int32 inputNodeId = 1;
+	int32 inputPortId = 2;
+	int32 outputNodeId = 3;
+	int32 outputPortId = 4;
 }
 
-message DramaScriptDataTimeEntry
+message DramaScriptGraphData
 {
-	float Time = 1;
+	repeated DramaScriptNodeDataContainer nodeContainerList = 1;
+	repeated DramaScriptEdgeData edgeList = 2;
 }
 
-message DramaScriptDataPlayAnimation
+message DramaScriptNodeDataEntry
 {
-	string AnimationName = 1;
-	float Speed = 2;
+	int32 id = 1;
+}
+
+message DramaScriptNodeDataExit
+{
+	int32 id = 1;
+}
+
+message DramaScriptNodeDataTimeEntry
+{
+	int32 id = 1;
+	float Time = 2;
+}
+
+message DramaScriptNodeDataPlayAnimation
+{
+	int32 id = 1;
+	string AnimationName = 2;
+	float Speed = 3;
 }

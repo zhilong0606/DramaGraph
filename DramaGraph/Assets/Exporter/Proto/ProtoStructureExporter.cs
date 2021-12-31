@@ -217,6 +217,8 @@ namespace Tool.Export.Proto
                     return "double";
                 case EBasicStructureType.String:
                     return "string";
+                case EBasicStructureType.Bytes:
+                    return "bytes";
             }
             throw new Exception();
         }

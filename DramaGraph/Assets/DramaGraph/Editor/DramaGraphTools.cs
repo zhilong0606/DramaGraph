@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using DramaScript;
 using Tool.Export;
 using Tool.Export.Proto;
 using Tool.Export.Structure;
@@ -16,6 +17,31 @@ namespace GraphEditor.Drama
     public static class DramaGraphTools
     {
         private const string m_fileExtension = "dramagraph";
+
+        [MenuItem("Tools/Drama Script/Read Codes", false)]
+        public static void ReadCodes()
+        {
+            string folderPath = "Assets/DramaGraph/NodeDatas/";
+            string outputPath = folderPath + "graphData.bytes";
+
+            TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(outputPath);
+            if (textAsset != null)
+            {
+                DramaScriptGraphData scriptGraphData = DramaScriptGraphData.Parser.ParseFrom(textAsset.bytes);
+                foreach (var container in scriptGraphData.NodeContainerList)
+                {
+                    switch (container.TypeName)
+                    {
+                        case "PlayAnimation":
+                        {
+                            DramaScriptNodeDataPlayAnimation scriptNodeData = DramaScriptNodeDataPlayAnimation.Parser.ParseFrom(container.Buffers.ToByteArray());
+                            int a = 0;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
 
         [MenuItem("Tools/Drama Script/Generate Codes", false)]
         public static void GenerateCodes()
@@ -31,11 +57,31 @@ namespace GraphEditor.Drama
                     context.namespaceStr = "DramaScript";
                     context.needExport = true;
                     context.extensionStr = "binary";
-                    context.prefixStr = "DramaScriptData";
+                    context.prefixStr = "";
+
+                    ClassStructureInfo nodeContainerStructureInfo = new ClassStructureInfo("DramaScriptNodeDataContainer");
+                    nodeContainerStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.String), "typeName");
+                    nodeContainerStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Bytes), "buffers");
+                    context.structureManager.AddStructureInfo(nodeContainerStructureInfo);
+
+                    ClassStructureInfo edgeStructureInfo = new ClassStructureInfo("DramaScriptEdgeData");
+                    edgeStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Int32), "inputNodeId");
+                    edgeStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Int32), "inputPortId");
+                    edgeStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Int32), "outputNodeId");
+                    edgeStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Int32), "outputPortId");
+                    context.structureManager.AddStructureInfo(edgeStructureInfo);
+
+                    ClassStructureInfo graphStructureInfo = new ClassStructureInfo("DramaScriptGraphData");
+                    graphStructureInfo.AddMember(new ListStructureInfo(nodeContainerStructureInfo), "nodeContainerList");
+                    graphStructureInfo.AddMember(new ListStructureInfo(edgeStructureInfo), "edgeList");
+                    context.structureManager.AddStructureInfo(graphStructureInfo);
+
+
                     GraphNodeDefines defines = serialize.Deserialize(stream) as GraphNodeDefines;
                     foreach (var nodeDefine in defines.nodeList)
                     {
-                        ClassStructureInfo structureInfo = new ClassStructureInfo(nodeDefine.name);
+                        ClassStructureInfo structureInfo = new ClassStructureInfo("DramaScriptNodeData" + nodeDefine.name);
+                        structureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Int32), "id");
                         foreach (var portDefine in nodeDefine.portList)
                         {
                             if (!portDefine.isTrigger)
@@ -56,6 +102,8 @@ namespace GraphEditor.Drama
                         }
                         context.structureManager.AddStructureInfo(structureInfo);
                     }
+
+
                     ProtoStructureExporter exporter = new ProtoStructureExporter();
                     exporter.Export(context);
                 }
