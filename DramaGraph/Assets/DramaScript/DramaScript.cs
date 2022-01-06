@@ -8,8 +8,10 @@ namespace DramaScript
     public class DramaScript
     {
         private List<DramaScriptNode> m_nodeList = new List<DramaScriptNode>();
-        private DramaScriptNode m_entryNode;
-        private List<DramaScriptNode> m_entryNodeList = new List<DramaScriptNode>();
+        private List<DramaScriptNode> m_runningNodeList = new List<DramaScriptNode>();
+        private List<IDramaScriptNodeEntry> m_entryNodeList = new List<IDramaScriptNodeEntry>();
+
+        public Action actionOnEnd;
 
         public void Load(DramaScriptGraphData graphData)
         {
@@ -19,9 +21,15 @@ namespace DramaScript
                 object data = DramaScriptFactory.ParseNodeData(nodeContainer.TypeName, nodeContainer.Buffers);
                 node.Init(nodeContainer.Id, data);
                 m_nodeList.Add(node);
-                if (node is DramaScriptNodeTimeEntry || node is DramaScriptNodeEntry)
+                IDramaScriptNodeEntry entryNode = node as IDramaScriptNodeEntry;
+                if (entryNode != null)
                 {
-                    m_entryNodeList.Add(node);
+                    m_entryNodeList.Add(entryNode);
+                }
+                DramaScriptNodeExit exitNode = node as DramaScriptNodeExit;
+                if (exitNode != null)
+                {
+                    exitNode.actionOnEnd = OnEnd;
                 }
             }
             foreach (var edgeData in graphData.EdgeList)
@@ -46,11 +54,28 @@ namespace DramaScript
             }
         }
 
-
-
-        public void Tick(float deltaTime)
+        public void Start()
         {
+            foreach (var node in m_entryNodeList)
+            {
+                node.Start();
+            }
+        }
 
+        public void Tick(DramaScriptTime deltaTime)
+        {
+            foreach (var node in m_nodeList)
+            {
+                node.Tick(deltaTime);
+            }
+        }
+
+        private void OnEnd()
+        {
+            if (actionOnEnd != null)
+            {
+                actionOnEnd();
+            }
         }
 
         private DramaScriptNode GetNode(int nodeId)

@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace DramaScript
 {
-    public partial class DramaScriptNodeEntry : DramaScriptNode
+    public partial class DramaScriptNodeEntry : DramaScriptNode, IDramaScriptNodeEntry
     {
+        public void Start()
+        {
+            TriggerStart();
+        }
     }
 }

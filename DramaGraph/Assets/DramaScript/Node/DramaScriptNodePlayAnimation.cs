@@ -2,14 +2,26 @@
 {
     public partial class DramaScriptNodePlayAnimation : DramaScriptNode
     {
+        private bool m_isStart;
+        private float m_curTime;
+
         partial void OnStart()
         {
-            throw new System.NotImplementedException();
+            m_isStart = true;
+            m_curTime = 0f;
         }
 
-        private void TriggerExit()
+        protected override void OnTick(DramaScriptTime deltaTime)
         {
-            InvokeOutputTrigger(0);
+            if (m_isStart)
+            {
+                m_curTime += deltaTime.floatSec;
+                if (m_curTime > 3f)
+                {
+                    m_isStart = false;
+                    TriggerEnd();
+                }
+            }
         }
     }
 }

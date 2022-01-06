@@ -7,9 +7,14 @@ namespace DramaScript
 {
     public partial class DramaScriptNodeExit : DramaScriptNode
     {
+        public Action actionOnEnd;
+
         partial void OnEnd()
         {
-            throw new NotImplementedException();
+            if (actionOnEnd != null)
+            {
+                actionOnEnd();
+            }
         }
     }
 }

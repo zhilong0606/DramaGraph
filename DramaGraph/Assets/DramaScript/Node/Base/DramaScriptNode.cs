@@ -22,6 +22,7 @@ namespace DramaScript
 
         public void Init(int id, object data)
         {
+            m_id = id;
             m_data = data;
             OnInit();
             OnInitInputTrigger();
@@ -30,6 +31,11 @@ namespace DramaScript
         public void UnInit()
         {
             OnUnInit();
+        }
+
+        public void Tick(DramaScriptTime deltaTime)
+        {
+            OnTick(deltaTime);
         }
 
         public void RegisterInputFunc<T>(int id, Func<T> func)
@@ -138,6 +144,8 @@ namespace DramaScript
         protected virtual void OnInitInputTrigger() { }
 
         protected virtual void OnUnInit() { }
+
+        protected virtual void OnTick(DramaScriptTime deltaTime) { }
 
         private DramaScriptNodeFuncInfo<T> GetInputFuncInfo<T>(int id, bool autoCreate)
         {

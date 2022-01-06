@@ -112,7 +112,7 @@ namespace GraphEditor.Drama
                 {
                     DramaScriptEdgeData scriptEdgeData = new DramaScriptEdgeData()
                     {
-                        TypeName = inputPort.define.portType.ToString(),
+                        TypeName = inputPort.define.valueType.ToString(),
                         InputNodeId = edgeData.inputNodeId,
                         InputPortId = edgeData.inputPortId,
                         OutputNodeId = edgeData.outputNodeId,
