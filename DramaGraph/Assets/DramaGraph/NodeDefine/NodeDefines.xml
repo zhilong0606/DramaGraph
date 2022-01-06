@@ -7,7 +7,7 @@
       <portList>
         <id>0</id>
         <sortId>0</sortId>
-        <name></name>
+        <name>Start</name>
         <valueType>Trigger</valueType>
         <portType>Output</portType>
         <isTrigger>true</isTrigger>
@@ -20,7 +20,7 @@
       <portList>
         <id>0</id>
         <sortId>0</sortId>
-        <name></name>
+        <name>End</name>
         <valueType>Trigger</valueType>
         <portType>Input</portType>
         <isTrigger>true</isTrigger>

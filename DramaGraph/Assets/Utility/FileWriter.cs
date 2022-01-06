@@ -59,7 +59,7 @@ namespace Tool
             return this;
         }
 
-        public void AppendLine(string str = null)
+        public void AppendLine(string str = null, params object[] prms)
         {
             if (!string.IsNullOrEmpty(str))
             {
@@ -67,7 +67,14 @@ namespace Tool
                 {
                     m_stringBuilder.Append("\t");
                 }
-                m_stringBuilder.Append(str);
+                if(prms != null && prms.Length > 0)
+                {
+                    m_stringBuilder.Append(string.Format(str, prms));
+                }
+                else
+                {
+                    m_stringBuilder.Append(str);
+                }
             }
             m_stringBuilder.Append("\r\n");
         }

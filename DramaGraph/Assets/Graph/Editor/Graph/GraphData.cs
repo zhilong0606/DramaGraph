@@ -53,6 +53,29 @@ namespace GraphEditor
             m_serializableNodeDataList = SerializationUtility.Serialize(m_nodeDataList);
         }
 
+        public GraphNodeData GetNode(int nodeId)
+        {
+            int count = nodeDataList.Count;
+            for (int i = 0; i < count; ++i)
+            {
+                if (nodeDataList[i].id == nodeId)
+                {
+                    return nodeDataList[i];
+                }
+            }
+            return null;
+        }
+
+        public GraphPortData GetPort(int nodeId, int portId)
+        {
+            GraphNodeData nodeData = GetNode(nodeId);
+            if (nodeData != null)
+            {
+                return nodeData.GetPortData(portId);
+            }
+            return null;
+        }
+
         public void OnAfterDeserialize()
         {
             m_nodeDataList.Clear();

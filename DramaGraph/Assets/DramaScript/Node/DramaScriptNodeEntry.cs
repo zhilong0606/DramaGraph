@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DramaScript
 {
-    public class DramaScriptNodeEntry : DramaScriptNode
+    public partial class DramaScriptNodeEntry : DramaScriptNode
     {
     }
 }

@@ -25,12 +25,17 @@ namespace GraphEditor
         private TreeNode<string> m_nodePathTree = new TreeNode<string>();
         private string m_assetGuid;
 
-        public Action<TData> actionOnSaveData;
-        public Action<TData> actionOnExportData;
+        public Action actionOnSaveData;
+        public Action actionOnExportData;
 
         public GraphView<TData> view
         {
             get { return m_view; }
+        }
+
+        public GraphData data
+        {
+            get { return m_data; }
         }
 
         public void Init(GraphContext context)
@@ -155,7 +160,7 @@ namespace GraphEditor
         {
             if (actionOnSaveData != null)
             {
-                actionOnSaveData(m_data);
+                actionOnSaveData();
             }
         }
 
@@ -163,7 +168,7 @@ namespace GraphEditor
         {
             if (actionOnExportData != null)
             {
-                actionOnExportData(m_data);
+                actionOnExportData();
             }
         }
 
@@ -440,7 +445,7 @@ namespace GraphEditor
         }
 
 
-        private GraphPort GetPort(int nodeId, int portId)
+        public GraphPort GetPort(int nodeId, int portId)
         {
             GraphNode node = GetNode(nodeId);
             if (node != null)

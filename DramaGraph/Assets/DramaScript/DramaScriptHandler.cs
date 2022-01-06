@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DramaScript
 {
-    public class DramaScriptHandler : MonoBehaviour
+    public class DramaScriptHandler
     {
 
     }

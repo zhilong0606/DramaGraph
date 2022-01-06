@@ -3,16 +3,18 @@ package DramaScript;
 
 message DramaScriptNodeDataContainer
 {
-	string typeName = 1;
-	bytes buffers = 2;
+	int32 id = 1;
+	string typeName = 2;
+	bytes buffers = 3;
 }
 
 message DramaScriptEdgeData
 {
-	int32 inputNodeId = 1;
-	int32 inputPortId = 2;
-	int32 outputNodeId = 3;
-	int32 outputPortId = 4;
+	string typeName = 1;
+	int32 inputNodeId = 2;
+	int32 inputPortId = 3;
+	int32 outputNodeId = 4;
+	int32 outputPortId = 5;
 }
 
 message DramaScriptGraphData
@@ -23,23 +25,19 @@ message DramaScriptGraphData
 
 message DramaScriptNodeDataEntry
 {
-	int32 id = 1;
 }
 
 message DramaScriptNodeDataExit
 {
-	int32 id = 1;
 }
 
 message DramaScriptNodeDataTimeEntry
 {
-	int32 id = 1;
-	float Time = 2;
+	float Time = 1;
 }
 
 message DramaScriptNodeDataPlayAnimation
 {
-	int32 id = 1;
-	string AnimationName = 2;
-	float Speed = 3;
+	string AnimationName = 1;
+	float Speed = 2;
 }

@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace DramaScript
 {
-    public class DramaScriptNodeExit : DramaScriptNode
+    public partial class DramaScriptNodeExit : DramaScriptNode
     {
+        partial void OnEnd()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

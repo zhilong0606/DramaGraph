@@ -17,6 +17,7 @@ namespace GraphEditor.Drama
     public class DramaGraphEditWindow : EditorWindow
     {
         private string m_assetGuid;
+        private Graph<DramaGraphData, DramaGraphView> m_graph;
 
         public string assetGuid
         {
@@ -53,13 +54,13 @@ namespace GraphEditor.Drama
                 GraphContext context = new GraphContext();
                 context.window = this;
                 context.nodeDefinePath = "Assets/DramaGraph/NodeDefine/NodeDefines.xml";
-                Graph<DramaGraphData, DramaGraphView> graph = new Graph<DramaGraphData, DramaGraphView>();
-                graph.Init(context);
-                graph.actionOnSaveData = OnSaveGraphData;
-                graph.actionOnExportData = OnExportGraphData;
-                graph.SetData(graphData);
+                m_graph = new Graph<DramaGraphData, DramaGraphView>();
+                m_graph.Init(context);
+                m_graph.actionOnSaveData = OnSaveGraphData;
+                m_graph.actionOnExportData = OnExportGraphData;
+                m_graph.SetData(graphData);
 
-                rootVisualElement.Add(graph.view);
+                rootVisualElement.Add(m_graph.view);
                 titleContent = new GUIContent(asset.name.Split('/').Last());
                 Repaint();
             }
@@ -69,17 +70,17 @@ namespace GraphEditor.Drama
             }
         }
 
-        private void OnSaveGraphData(DramaGraphData graphData)
+        private void OnSaveGraphData()
         {
             var path = AssetDatabase.GUIDToAssetPath(m_assetGuid);
             if (string.IsNullOrEmpty(path))
                 return;
-            if (FileUtility.WriteToDisk(path, graphData))
+            if (FileUtility.WriteToDisk(path, m_graph.data))
                 AssetDatabase.ImportAsset(path);
             //graphObject.isDirty = false;
         }
 
-        private void OnExportGraphData(DramaGraphData graphData)
+        private void OnExportGraphData()
         {
             GraphNodeDefines defines = null;
             using (FileStream stream = File.Open("Assets/DramaGraph/NodeDefine/NodeDefines.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite))
@@ -94,57 +95,31 @@ namespace GraphEditor.Drama
                 //}
             }
             DramaScriptGraphData scriptGraphData = new DramaScriptGraphData();
-            foreach (var nodeData in graphData.nodeDataList)
+            foreach (var nodeData in m_graph.data.nodeDataList)
             {
                 DramaScriptNodeDataContainer container = new DramaScriptNodeDataContainer();
+                container.Id = nodeData.id;
                 container.TypeName = nodeData.defineName;
-                GraphNodeDefine nodeDefine = defines.nodeList.Find(n => n.name == nodeData.defineName);
-                switch (nodeData.defineName)
-                {
-                    case "PlayAnimation":
-                    {
-                        DramaScriptNodeDataPlayAnimation scriptNodeData = new DramaScriptNodeDataPlayAnimation();
-                        scriptNodeData.Id = nodeData.id;
-                        scriptNodeData.AnimationName = (nodeData.GetPortData(nodeDefine.portList.Find(p => p.name == "AnimationName").id) as GraphPortDataString).value;
-                        scriptNodeData.Speed = (nodeData.GetPortData(nodeDefine.portList.Find(p => p.name == "Speed").id) as GraphPortDataFloat).value;
-                        container.Buffers = GetBuffer(scriptNodeData);
-                        break;
-                    }
-                    case "TimeEntry":
-                    {
-                        DramaScriptNodeDataTimeEntry scriptNodeData = new DramaScriptNodeDataTimeEntry();
-                        scriptNodeData.Id = nodeData.id;
-                        scriptNodeData.Time = (nodeData.GetPortData(nodeDefine.portList.Find(p => p.name == "Time").id) as GraphPortDataFloat).value;
-                        container.Buffers = GetBuffer(scriptNodeData);
-                            break;
-                    }
-                    case "Entry":
-                    {
-                        DramaScriptNodeDataEntry scriptNodeData = new DramaScriptNodeDataEntry();
-                        scriptNodeData.Id = nodeData.id;
-                        container.Buffers = GetBuffer(scriptNodeData);
-                            break;
-                    }
-                    case "Exit":
-                    {
-                        DramaScriptNodeDataEntry scriptNodeData = new DramaScriptNodeDataEntry();
-                        scriptNodeData.Id = nodeData.id;
-                        container.Buffers = GetBuffer(scriptNodeData);
-                            break;
-                    }
-                }
+                GraphNodeDefine nodeDefine = defines.GetNode(nodeData.defineName);
+                container.Buffers = DramaGraphEditorFactory.CreateNodeDataBuffer(nodeData, nodeDefine);
                 scriptGraphData.NodeContainerList.Add(container);
             }
-            foreach (var edgeData in graphData.edgeDataList)
+            foreach (var edgeData in m_graph.data.edgeDataList)
             {
-                DramaScriptEdgeData scriptEdgeData = new DramaScriptEdgeData()
+                GraphPort inputPort = m_graph.GetPort(edgeData.inputNodeId, edgeData.inputPortId);
+                GraphPort outputPort = m_graph.GetPort(edgeData.outputNodeId, edgeData.outputPortId);
+                if (inputPort != null && outputPort != null && inputPort.define.valueType == outputPort.define.valueType)
                 {
-                    InputNodeId = edgeData.inputNodeId,
-                    InputPortId = edgeData.inputPortId,
-                    OutputNodeId = edgeData.outputNodeId,
-                    OutputPortId = edgeData.outputPortId,
-                };
-                scriptGraphData.EdgeList.Add(scriptEdgeData);
+                    DramaScriptEdgeData scriptEdgeData = new DramaScriptEdgeData()
+                    {
+                        TypeName = inputPort.define.portType.ToString(),
+                        InputNodeId = edgeData.inputNodeId,
+                        InputPortId = edgeData.inputPortId,
+                        OutputNodeId = edgeData.outputNodeId,
+                        OutputPortId = edgeData.outputPortId,
+                    };
+                    scriptGraphData.EdgeList.Add(scriptEdgeData);
+                }
             }
             string folderPath = "Assets/DramaGraph/NodeDatas/";
             if (!Directory.Exists(folderPath))
@@ -198,20 +173,6 @@ namespace GraphEditor.Drama
             //}
             //ProtoStructureExporter exporter = new ProtoStructureExporter();
             //exporter.Export(context);
-        }
-
-        private ByteString GetBuffer(IMessage obj)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                using (CodedOutputStream cos = new CodedOutputStream(ms))
-                {
-                    obj.WriteTo(cos);
-                    cos.Flush();
-                    ms.Position = 0;
-                    return ByteString.FromStream(ms);
-                }
-            }
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DramaScript
 {
-    public class DramaScriptNodeTimeEntry : DramaScriptNode
+    public partial class DramaScriptNodeTimeEntry : DramaScriptNode
     {
     }
 }

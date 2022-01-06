@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace DramaScript
+﻿namespace DramaScript
 {
-    public class DramaScriptNodePlayAnimation : DramaScriptNode
+    public partial class DramaScriptNodePlayAnimation : DramaScriptNode
     {
+        partial void OnStart()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void TriggerExit()
+        {
+            InvokeOutputTrigger(0);
+        }
     }
 }
