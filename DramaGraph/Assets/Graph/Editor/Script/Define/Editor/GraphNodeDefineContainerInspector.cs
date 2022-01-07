@@ -62,7 +62,8 @@ namespace GraphEditor
 
             if (m_selectedNodeDefine != null)
             {
-                DrawNodeDefine(m_selectedNodeDefine);
+                SerializedProperty nodeProperty = serializedObject.FindProperty("nodeList").GetArrayElementAtIndex(m_reorderableNodeDefineList.index);
+                DrawNodeDefine(nodeProperty, m_selectedNodeDefine);
             }
             else
             {
@@ -99,7 +100,17 @@ namespace GraphEditor
         private void OnAdd_NodeDefine(ReorderableList list)
         {
             GraphNodeDefine nodeDefine = new GraphNodeDefine();
-            m_nodeDefineContainer.nodeList.Add(nodeDefine);
+            if (m_selectedNodeDefine != null)
+            {
+                int selectedIndex = m_nodeDefineContainer.nodeList.IndexOf(m_selectedNodeDefine);
+                m_nodeDefineContainer.nodeList.Insert(selectedIndex + 1, nodeDefine);
+            }
+            else
+            {
+                m_nodeDefineContainer.nodeList.Add(nodeDefine);
+            }
+            list.index = m_nodeDefineContainer.nodeList.IndexOf(nodeDefine);
+            SelectNodeDefine(nodeDefine);
             EditorUtility.SetDirty(m_nodeDefineContainer);
         }
 
@@ -147,7 +158,7 @@ namespace GraphEditor
             m_cachedSelectedNodeDefine = nodeDefine;
         }
 
-        private void DrawNodeDefine(GraphNodeDefine nodeDefine)
+        private void DrawNodeDefine(SerializedProperty nodeProperty, GraphNodeDefine nodeDefine)
         {
             GUIStyle style = new GUIStyle(GUI.skin.GetStyle("label"));
             style.fontSize = 18;
@@ -158,19 +169,8 @@ namespace GraphEditor
                 GUILayout.Space(30);
                 EditorGUILayout.BeginVertical("HelpBox");
                 {
-                    SerializedProperty nodeSp = null;
-                    int index = m_nodeDefineContainer.nodeList.IndexOf(nodeDefine);
-                    if (index >= 0 && index < serializedObject.FindProperty("nodeList").arraySize)
-                    {
-                        nodeSp = serializedObject.FindProperty("nodeList").GetArrayElementAtIndex(index);
-
-                    }
-                    if (nodeSp != null)
-                    {
-                        EditorGUILayout.PropertyField(nodeSp.FindPropertyRelative("name"));
-                        EditorGUILayout.PropertyField(nodeSp.FindPropertyRelative("path"));
-                    }
-
+                    EditorGUILayout.PropertyField(nodeProperty.FindPropertyRelative("name"));
+                    EditorGUILayout.PropertyField(nodeProperty.FindPropertyRelative("path"));
                     EditorGUILayout.BeginHorizontal();
                     {
                         EditorGUILayout.BeginVertical();
@@ -180,7 +180,7 @@ namespace GraphEditor
                                 m_inputPortDefineList.Clear();
                                 foreach (var portDefine in nodeDefine.portList)
                                 {
-                                    if(portDefine.portType == EGraphPortType.Input)
+                                    if(portDefine.dirType == EGraphPortDirType.Input)
                                     {
                                         m_inputPortDefineList.Add(portDefine);
                                     }
@@ -212,7 +212,7 @@ namespace GraphEditor
                                 m_outputPortDefineList.Clear();
                                 foreach (var portDefine in nodeDefine.portList)
                                 {
-                                    if (portDefine.portType == EGraphPortType.Output)
+                                    if (portDefine.dirType == EGraphPortDirType.Output)
                                     {
                                         m_outputPortDefineList.Add(portDefine);
                                     }
@@ -241,7 +241,14 @@ namespace GraphEditor
                     EditorGUILayout.EndHorizontal();
                     if (m_selectedPortDefine != null)
                     {
-                        DrawPortDefine(m_selectedPortDefine);
+                        SerializedProperty portProperty = null;
+                        int index = nodeDefine.portList.IndexOf(m_selectedPortDefine);
+                        if (index >= 0 && index < nodeProperty.FindPropertyRelative("portList").arraySize)
+                        {
+                            portProperty = nodeProperty.FindPropertyRelative("portList").GetArrayElementAtIndex(index);
+
+                        }
+                        DrawPortDefine(portProperty, m_selectedPortDefine);
                     }
                 }
                 EditorGUILayout.EndVertical();
@@ -249,7 +256,7 @@ namespace GraphEditor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void DrawPortDefine(GraphPortDefine portDefine)
+        private void DrawPortDefine(SerializedProperty portProperty, GraphPortDefine portDefine)
         {
             GUIStyle style = new GUIStyle(GUI.skin.GetStyle("label"));
             style.fontSize = 16;
@@ -260,17 +267,15 @@ namespace GraphEditor
                 EditorGUILayout.BeginVertical("HelpBox");
                 {
                     EditorGUILayout.LabelField("id", portDefine.id.ToString());
-                    portDefine.name = EditorGUILayout.TextField("name", portDefine.name);
-                    portDefine.isTrigger = EditorGUILayout.Toggle("isTrigger", portDefine.isTrigger);
+                    EditorGUILayout.PropertyField(portProperty.FindPropertyRelative("name"));
+                    EditorGUILayout.PropertyField(portProperty.FindPropertyRelative("valueType"));
                     if (portDefine.isTrigger)
                     {
                         portDefine.defaultValue = string.Empty;
-                        portDefine.valueType = EGraphPortValueType.Trigger;
                     }
                     else
                     {
-                        portDefine.valueType = (EGraphPortValueType)EditorGUILayout.EnumPopup("valueType", portDefine.valueType);
-                        portDefine.defaultValue = EditorGUILayout.TextField("defaultValue", portDefine.defaultValue);
+                        EditorGUILayout.PropertyField(portProperty.FindPropertyRelative("defaultValue"));
                     }
                 }
                 EditorGUILayout.EndVertical();
@@ -298,7 +303,7 @@ namespace GraphEditor
         {
             GraphPortDefine portDefine = new GraphPortDefine();
             portDefine.id = m_selectedNodeDefine.idCursor++;
-            portDefine.portType = EGraphPortType.Input;
+            portDefine.dirType.value = EGraphPortDirType.Input;
             if (m_selectedPortDefine != null)
             {
                 int selectedIndex = m_inputPortDefineList.IndexOf(m_selectedPortDefine);
@@ -311,6 +316,8 @@ namespace GraphEditor
                 m_inputPortDefineList.Add(portDefine);
                 m_selectedNodeDefine.portList.Add(portDefine);
             }
+            list.index = m_inputPortDefineList.IndexOf(portDefine);
+            SelectPortDefine(portDefine);
             EditorUtility.SetDirty(m_nodeDefineContainer);
         }
 
@@ -373,7 +380,7 @@ namespace GraphEditor
         {
             GraphPortDefine portDefine = new GraphPortDefine();
             portDefine.id = m_selectedNodeDefine.idCursor++;
-            portDefine.portType = EGraphPortType.Output;
+            portDefine.dirType.value = EGraphPortDirType.Output;
             if (m_selectedPortDefine != null)
             {
                 int selectedIndex = m_outputPortDefineList.IndexOf(m_selectedPortDefine);
@@ -386,6 +393,8 @@ namespace GraphEditor
                 m_outputPortDefineList.Add(portDefine);
                 m_selectedNodeDefine.portList.Add(portDefine);
             }
+            list.index = m_outputPortDefineList.IndexOf(portDefine);
+            SelectPortDefine(portDefine);
             EditorUtility.SetDirty(m_nodeDefineContainer);
         }
 

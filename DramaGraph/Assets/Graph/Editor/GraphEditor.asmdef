@@ -1,6 +1,8 @@
 {
     "name": "GraphEditor",
-    "references": [],
+    "references": [
+        "GUID:245162c6033848641bbc72799ebc2950"
+    ],
     "includePlatforms": [
         "Editor"
     ],

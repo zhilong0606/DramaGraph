@@ -109,7 +109,7 @@ namespace GraphEditor.Drama
                     if (!portDefine.isTrigger)
                     {
                         EBasicStructureType structureType = EBasicStructureType.Bool;
-                        switch (portDefine.valueType)
+                        switch ((EGraphPortValueType)portDefine.valueType)
                         {
                             case EGraphPortValueType.Float:
                                 structureType = EBasicStructureType.Single;
@@ -155,7 +155,7 @@ namespace GraphEditor.Drama
                             writer.AppendLine();
                             if (portDefine.isTrigger)
                             {
-                                if (portDefine.portType != EGraphPortType.Input)
+                                if (portDefine.dirType != EGraphPortDirType.Input)
                                 {
                                     writer.AppendLine("private void Trigger{0}()", portDefine.name);
                                     writer.StartCodeBlock();
@@ -233,7 +233,7 @@ namespace GraphEditor.Drama
                                     writer.AppendLine("DramaScriptNodeData{0} scriptNodeData = new DramaScriptNodeData{0}();", nodeDefine.name);
                                     foreach(GraphPortDefine portDefine in nodeDefine.portList)
                                     {
-                                        if (portDefine.portType == EGraphPortType.Input && !portDefine.isTrigger)
+                                        if (portDefine.dirType == EGraphPortDirType.Input && !portDefine.isTrigger)
                                         {
                                             writer.AppendLine("scriptNodeData.{0} = GetPortData{1}(nodeData, nodeDefine, \"{0}\");", portDefine.name, portDefine.valueType);
                                         }

@@ -50,11 +50,11 @@ namespace GraphEditor
             }
         }
 
-        public void AddPort(GraphPortView port, EGraphPortType portType)
+        public void AddPort(GraphPortView port, EGraphPortDirType dirType)
         {
-            VisualElement container = GetPortContainer(portType);
+            VisualElement container = GetPortContainer(dirType);
             container.Add(port);
-            if (portType == EGraphPortType.Input)
+            if (dirType == EGraphPortDirType.Input)
             {
                 m_portInputContainerGroup.Add(port.container);
                 RefreshPortInputContainerGroupHeight();
@@ -66,13 +66,13 @@ namespace GraphEditor
             m_portInputContainerGroup.style.height = inputContainer.layout.height;
         }
 
-        private VisualElement GetPortContainer(EGraphPortType portType)
+        private VisualElement GetPortContainer(EGraphPortDirType dirType)
         {
-            switch (portType)
+            switch (dirType)
             {
-                case EGraphPortType.Input:
+                case EGraphPortDirType.Input:
                     return inputContainer;
-                case EGraphPortType.Output:
+                case EGraphPortDirType.Output:
                     return outputContainer;
             }
             return null;

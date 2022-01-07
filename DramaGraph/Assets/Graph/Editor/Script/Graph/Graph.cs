@@ -190,11 +190,11 @@ namespace GraphEditor
                         && TryGetPortInfo(connectPortView, out nodeId2, out portId2))
                     {
                         GraphEdgeData edgeData = new GraphEdgeData();
-                        if (connectablePort.define.portType == EGraphPortType.Output)
+                        if (connectablePort.define.dirType == EGraphPortDirType.Output)
                         {
                             edgeData.Init(nodeId1, portId1, nodeId2, portId2);
                         }
-                        else if (connectablePort.define.portType == EGraphPortType.Input)
+                        else if (connectablePort.define.dirType == EGraphPortDirType.Input)
                         {
                             edgeData.Init(nodeId2, portId2, nodeId1, portId1);
                         }

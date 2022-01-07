@@ -49,13 +49,13 @@ namespace GraphEditor
         {
             Direction direction = Direction.Input;
             Capacity capacity = Capacity.Single;
-            switch (define.portType)
+            switch ((EGraphPortDirType)define.dirType)
             {
-                case EGraphPortType.Input:
+                case EGraphPortDirType.Input:
                     direction = Direction.Input;
                     capacity = Capacity.Single;
                     break;
-                case EGraphPortType.Output:
+                case EGraphPortDirType.Output:
                     direction = Direction.Output;
                     capacity = Capacity.Multi;
                     break;
@@ -75,7 +75,7 @@ namespace GraphEditor
         {
             portName = m_define.name;
             //visualClass = slot.concreteValueType.ToClassName();
-            if (m_define.portType == EGraphPortType.Input && !m_define.isTrigger)
+            if (m_define.dirType == EGraphPortDirType.Input && !m_define.isTrigger)
             {
                 m_container = new GraphPortInputViewContainer() { style = { position = Position.Absolute } };
                 if (funcOnCreateInputView != null)

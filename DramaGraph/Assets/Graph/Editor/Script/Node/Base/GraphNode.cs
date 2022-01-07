@@ -84,7 +84,7 @@ namespace GraphEditor
                 for (int i = 0; i < m_portList.Count; ++i)
                 {
                     GraphPort port = m_portList[i];
-                    if (port.define.portType != targetPort.define.portType
+                    if (port.define.dirType != targetPort.define.dirType
                         && targetPort.define.valueType == port.define.valueType)
                     {
                         return port;
@@ -135,7 +135,7 @@ namespace GraphEditor
                 return;
             }
             m_portList.Add(port);
-            m_view.AddPort(port.view, port.define.portType);
+            m_view.AddPort(port.view, port.define.dirType);
         }
 
         private void OnPortViewGeometryChanged()
