@@ -82,13 +82,13 @@ namespace GraphEditor.Drama
 
         private void OnExportGraphData()
         {
-            GraphNodeDefines defines = null;
+            GraphNodeDefineContainer nodeDefineContainer = null;
             using (FileStream stream = File.Open("Assets/DramaGraph/NodeDefine/NodeDefines.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
-                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefines));
+                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefineContainer));
                 //try
                 {
-                    defines = serialize.Deserialize(stream) as GraphNodeDefines;
+                    nodeDefineContainer = serialize.Deserialize(stream) as GraphNodeDefineContainer;
                 }
                 //catch
                 //{
@@ -100,7 +100,7 @@ namespace GraphEditor.Drama
                 DramaScriptNodeDataContainer container = new DramaScriptNodeDataContainer();
                 container.Id = nodeData.id;
                 container.TypeName = nodeData.defineName;
-                GraphNodeDefine nodeDefine = defines.GetNode(nodeData.defineName);
+                GraphNodeDefine nodeDefine = nodeDefineContainer.GetNode(nodeData.defineName);
                 container.Buffers = DramaGraphEditorFactory.CreateNodeDataBuffer(nodeData, nodeDefine);
                 scriptGraphData.NodeContainerList.Add(container);
             }

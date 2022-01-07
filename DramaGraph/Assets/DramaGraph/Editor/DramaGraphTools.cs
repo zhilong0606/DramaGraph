@@ -50,14 +50,14 @@ namespace GraphEditor.Drama
             string codeAutoGenFolderPath = "Assets/DramaGraph/NodeDefineStructure/";
             using (FileStream stream = File.Open("Assets/DramaGraph/NodeDefine/NodeDefines.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
-                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefines));
+                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefineContainer));
                 //try
                 {
-                    GraphNodeDefines defines = serialize.Deserialize(stream) as GraphNodeDefines;
-                    GenerateStructureCode(codeAutoGenFolderPath, defines);
-                    GenerateScriptNodeCode(defines);
-                    GenerateDramaGraphEditorFactoryCode(codeAutoGenFolderPath, defines);
-                    GenerateDramaScriptFactoryCode(codeAutoGenFolderPath, defines);
+                    GraphNodeDefineContainer nodeDefineContainer = serialize.Deserialize(stream) as GraphNodeDefineContainer;
+                    GenerateStructureCode(codeAutoGenFolderPath, nodeDefineContainer);
+                    GenerateScriptNodeCode(nodeDefineContainer);
+                    GenerateDramaGraphEditorFactoryCode(codeAutoGenFolderPath, nodeDefineContainer);
+                    GenerateDramaScriptFactoryCode(codeAutoGenFolderPath, nodeDefineContainer);
                 }
                 //catch
                 //{
@@ -72,7 +72,7 @@ namespace GraphEditor.Drama
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, graphItem, string.Format("NewDramaGraph.{0}", m_fileExtension), null, null);
         }
 
-        private static void GenerateStructureCode(string codeAutoGenFolderPath, GraphNodeDefines defines)
+        private static void GenerateStructureCode(string codeAutoGenFolderPath, GraphNodeDefineContainer nodeDefineContainer)
         {
             ExportContext context = new ExportContext();
             context.ilExportPath = "Assets/DramaGraph/NodeDefineIl/";
@@ -101,7 +101,7 @@ namespace GraphEditor.Drama
             graphStructureInfo.AddMember(new ListStructureInfo(edgeStructureInfo), "edgeList");
             context.structureManager.AddStructureInfo(graphStructureInfo);
 
-            foreach (var nodeDefine in defines.nodeList)
+            foreach (var nodeDefine in nodeDefineContainer.nodeList)
             {
                 ClassStructureInfo structureInfo = new ClassStructureInfo("DramaScriptNodeData" + nodeDefine.name);
                 foreach (var portDefine in nodeDefine.portList)
@@ -129,9 +129,9 @@ namespace GraphEditor.Drama
             exporter.Export(context);
         }
 
-        private static void GenerateScriptNodeCode(GraphNodeDefines defines)
+        private static void GenerateScriptNodeCode(GraphNodeDefineContainer nodeDefineContainer)
         {
-            foreach (var nodeDefine in defines.nodeList)
+            foreach (var nodeDefine in nodeDefineContainer.nodeList)
             {
                 FileWriter writer = new FileWriter();
                 writer.AppendLine("using UnityEngine;");
@@ -207,7 +207,7 @@ namespace GraphEditor.Drama
             }
         }
 
-        private static void GenerateDramaGraphEditorFactoryCode(string codeAutoGenFolderPath, GraphNodeDefines nodeDefines)
+        private static void GenerateDramaGraphEditorFactoryCode(string codeAutoGenFolderPath, GraphNodeDefineContainer nodeDefineContainer)
         {
             FileWriter writer = new FileWriter();
             writer.AppendLine("using DramaScript;");
@@ -225,7 +225,7 @@ namespace GraphEditor.Drama
                         writer.AppendLine("switch (nodeData.defineName)");
                         writer.StartCodeBlock();
                         {
-                            foreach (GraphNodeDefine nodeDefine in nodeDefines.nodeList)
+                            foreach (GraphNodeDefine nodeDefine in nodeDefineContainer.nodeList)
                             {
                                 writer.AppendLine("case \"{0}\":", nodeDefine.name);
                                 writer.StartCodeBlock();
@@ -254,7 +254,7 @@ namespace GraphEditor.Drama
             writer.WriteFile(codeAutoGenFolderPath + "Editor/DramaGraphEditorFactory_AutoGen.cs");
         }
 
-        private static void GenerateDramaScriptFactoryCode(string codeAutoGenFolderPath, GraphNodeDefines nodeDefines)
+        private static void GenerateDramaScriptFactoryCode(string codeAutoGenFolderPath, GraphNodeDefineContainer nodeDefineContainer)
         {
             FileWriter writer = new FileWriter();
             writer.AppendLine("using Google.Protobuf;");
@@ -271,7 +271,7 @@ namespace GraphEditor.Drama
                         writer.AppendLine("switch (typeName)");
                         writer.StartCodeBlock();
                         {
-                            foreach (GraphNodeDefine nodeDefine in nodeDefines.nodeList)
+                            foreach (GraphNodeDefine nodeDefine in nodeDefineContainer.nodeList)
                             {
                                 writer.AppendLine("case \"{0}\":", nodeDefine.name);
                                 writer.AppendLine("return new DramaScriptNode{0}();", nodeDefine.name);
@@ -289,7 +289,7 @@ namespace GraphEditor.Drama
                         writer.AppendLine("switch (typeName)");
                         writer.StartCodeBlock();
                         {
-                            foreach (GraphNodeDefine nodeDefine in nodeDefines.nodeList)
+                            foreach (GraphNodeDefine nodeDefine in nodeDefineContainer.nodeList)
                             {
                                 writer.AppendLine("case \"{0}\":", nodeDefine.name);
                                 writer.AppendLine("return DramaScriptNodeData{0}.Parser.ParseFrom(buffer.ToByteArray());", nodeDefine.name);

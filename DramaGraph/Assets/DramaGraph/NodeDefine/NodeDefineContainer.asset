@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: NodeDefineContainer
+  m_EditorClassIdentifier: Assembly-CSharp-Editor:GraphEditor:GraphNodeDefineContainer
+  nodeList:
+  - name: Entry
+    path: Entry
+    idCursor: 3
+    portList:
+    - id: 2
+      sortId: 0
+      name: Start
+      portType: 1
+      valueType: 8
+      defaultValue: 
+      isTrigger: 1
+  - name: Exit
+    path: Exit
+    idCursor: 2
+    portList:
+    - id: 1
+      sortId: 0
+      name: End
+      portType: 0
+      valueType: 8
+      defaultValue: 
+      isTrigger: 1
+  - name: TimeEntry
+    path: Entry
+    idCursor: 3
+    portList:
+    - id: 1
+      sortId: 0
+      name: Time
+      portType: 0
+      valueType: 4
+      defaultValue: 
+      isTrigger: 0
+    - id: 2
+      sortId: 0
+      name: End
+      portType: 1
+      valueType: 8
+      defaultValue: 
+      isTrigger: 1
+  - name: PlayAnimation
+    path: Skill
+    idCursor: 5
+    portList:
+    - id: 1
+      sortId: 0
+      name: Start
+      portType: 0
+      valueType: 8
+      defaultValue: 
+      isTrigger: 1
+    - id: 2
+      sortId: 1
+      name: AnimationName
+      portType: 0
+      valueType: 7
+      defaultValue: 
+      isTrigger: 0
+    - id: 3
+      sortId: 2
+      name: Speed
+      portType: 0
+      valueType: 4
+      defaultValue: 
+      isTrigger: 0
+    - id: 4
+      sortId: 0
+      name: End
+      portType: 1
+      valueType: 8
+      defaultValue: 
+      isTrigger: 1
