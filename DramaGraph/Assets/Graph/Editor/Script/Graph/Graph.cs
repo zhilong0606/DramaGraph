@@ -20,7 +20,6 @@ namespace GraphEditor
 
         private List<GraphNode> m_nodeList = new List<GraphNode>();
         private List<GraphEdge> m_edgeList = new List<GraphEdge>();
-        private List<GraphNodeDefine> m_nodeDefineList = new List<GraphNodeDefine>();
         private List<GraphPortHelper> m_portHelperList = new List<GraphPortHelper>();
         private TreeNode<string> m_nodePathTree = new TreeNode<string>();
         private string m_assetGuid;
@@ -41,7 +40,6 @@ namespace GraphEditor
         public void Init(GraphContext context)
         {
             m_context = context;
-            InitNodeDefine();
             InitNodePathTree();
             InitPortHelper();
             InitObject();
@@ -71,26 +69,9 @@ namespace GraphEditor
             m_context.edgeConnectorListener = m_view.edgeConnectorListener;
         }
 
-        private void InitNodeDefine()
-        {
-            m_nodeDefineList.Clear();
-            using (FileStream stream = File.Open(m_context.nodeDefinePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
-            {
-                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefineContainer));
-                //try
-                {
-                    GraphNodeDefineContainer nodeDefineContainer = serialize.Deserialize(stream) as GraphNodeDefineContainer;
-                    m_nodeDefineList.AddRange(nodeDefineContainer.nodeList);
-                }
-                //catch
-                //{
-                //}
-            }
-        }
-
         private void InitNodePathTree()
         {
-            foreach (GraphNodeDefine nodeDefine in m_nodeDefineList)
+            foreach (GraphNodeDefine nodeDefine in m_context.nodeDefineContainer.nodeList)
             {
                 string path = nodeDefine.path;
                 string name = nodeDefine.name;
@@ -457,11 +438,11 @@ namespace GraphEditor
 
         private GraphNodeDefine GetNodeDefine(string nodeDefineName)
         {
-            for (int i = 0; i < m_nodeDefineList.Count; ++i)
+            for (int i = 0; i < m_context.nodeDefineContainer.nodeList.Count; ++i)
             {
-                if (m_nodeDefineList[i].name == nodeDefineName)
+                if (m_context.nodeDefineContainer.nodeList[i].name == nodeDefineName)
                 {
-                    return m_nodeDefineList[i];
+                    return m_context.nodeDefineContainer.nodeList[i];
                 }
             }
             return null;

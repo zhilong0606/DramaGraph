@@ -48,21 +48,11 @@ namespace GraphEditor.Drama
         public static void GenerateCodes()
         {
             string codeAutoGenFolderPath = "Assets/DramaGraph/NodeDefineStructure/";
-            using (FileStream stream = File.Open("Assets/DramaGraph/NodeDefine/NodeDefines.xml", FileMode.OpenOrCreate, FileAccess.ReadWrite))
-            {
-                XmlSerializer serialize = new XmlSerializer(typeof(GraphNodeDefineContainer));
-                //try
-                {
-                    GraphNodeDefineContainer nodeDefineContainer = serialize.Deserialize(stream) as GraphNodeDefineContainer;
-                    GenerateStructureCode(codeAutoGenFolderPath, nodeDefineContainer);
-                    GenerateScriptNodeCode(nodeDefineContainer);
-                    GenerateDramaGraphEditorFactoryCode(codeAutoGenFolderPath, nodeDefineContainer);
-                    GenerateDramaScriptFactoryCode(codeAutoGenFolderPath, nodeDefineContainer);
-                }
-                //catch
-                //{
-                //}
-            }
+            GraphNodeDefineContainer nodeDefineContainer = GetGraphNodeDefineContainer();
+            GenerateStructureCode(codeAutoGenFolderPath, nodeDefineContainer);
+            GenerateScriptNodeCode(nodeDefineContainer);
+            GenerateDramaGraphEditorFactoryCode(codeAutoGenFolderPath, nodeDefineContainer);
+            GenerateDramaScriptFactoryCode(codeAutoGenFolderPath, nodeDefineContainer);
         }
 
         [MenuItem("Assets/Create/Drama Script/Skill Drama Graph", false, 208)]
@@ -81,6 +71,7 @@ namespace GraphEditor.Drama
             context.needExport = true;
             context.extensionStr = "binary";
             context.prefixStr = "";
+            context.exporterPath = Application.dataPath.Substring(0, Application.dataPath.Length - "Assets".Length) + "Tools/Proto/protoc";
 
             ClassStructureInfo nodeContainerStructureInfo = new ClassStructureInfo("DramaScriptNodeDataContainer");
             nodeContainerStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Int32), "id");
@@ -306,6 +297,12 @@ namespace GraphEditor.Drama
             writer.WriteFile(codeAutoGenFolderPath + "DramaScriptFactory.cs");
         }
 
+        public static GraphNodeDefineContainer GetGraphNodeDefineContainer()
+        {
+            string nodeDefineContainerPath = "Assets/DramaGraph/NodeDefine/GraphNodeDefineContainer.asset";
+            return AssetDatabase.LoadAssetAtPath<GraphNodeDefineContainer>(nodeDefineContainerPath);
+        }
+
         public static bool ShowGraphEditWindow(string path)
         {
             var guid = AssetDatabase.AssetPathToGUID(path);
@@ -344,7 +341,6 @@ namespace GraphEditor.Drama
             var path = AssetDatabase.GetAssetPath(instanceID);
             return ShowGraphEditWindow(path);
         }
-
 
         public class NewFileAction : EndNameEditAction
         {

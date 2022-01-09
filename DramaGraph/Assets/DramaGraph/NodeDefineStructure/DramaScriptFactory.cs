@@ -10,12 +10,14 @@ namespace DramaScript
 			{
 				case "Entry":
 				return new DramaScriptNodeEntry();
-				case "Exit":
-				return new DramaScriptNodeExit();
 				case "TimeEntry":
 				return new DramaScriptNodeTimeEntry();
+				case "Exit":
+				return new DramaScriptNodeExit();
 				case "PlayAnimation":
 				return new DramaScriptNodePlayAnimation();
+				case "SpawnEffect":
+				return new DramaScriptNodeSpawnEffect();
 			}
 			return null;
 		}
@@ -26,12 +28,14 @@ namespace DramaScript
 			{
 				case "Entry":
 				return DramaScriptNodeDataEntry.Parser.ParseFrom(buffer.ToByteArray());
-				case "Exit":
-				return DramaScriptNodeDataExit.Parser.ParseFrom(buffer.ToByteArray());
 				case "TimeEntry":
 				return DramaScriptNodeDataTimeEntry.Parser.ParseFrom(buffer.ToByteArray());
+				case "Exit":
+				return DramaScriptNodeDataExit.Parser.ParseFrom(buffer.ToByteArray());
 				case "PlayAnimation":
 				return DramaScriptNodeDataPlayAnimation.Parser.ParseFrom(buffer.ToByteArray());
+				case "SpawnEffect":
+				return DramaScriptNodeDataSpawnEffect.Parser.ParseFrom(buffer.ToByteArray());
 			}
 			return null;
 		}

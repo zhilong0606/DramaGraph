@@ -13,6 +13,6 @@ namespace GraphEditor
         public EditorWindow window;
         public List<GraphPortHelper> portHelperList;
         public TreeNode<string> nodePathTree;
-        public string nodeDefinePath;
+        public GraphNodeDefineContainer nodeDefineContainer;
     }
 }

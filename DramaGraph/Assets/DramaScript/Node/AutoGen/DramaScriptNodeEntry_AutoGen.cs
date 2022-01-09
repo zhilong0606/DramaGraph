@@ -11,7 +11,7 @@ namespace DramaScript
 
 		private void TriggerStart()
 		{
-			InvokeOutputTrigger(0);
+			InvokeOutputTrigger(3);
 		}
 	}
 }

@@ -9,14 +9,14 @@ namespace DramaScript
 			get { return m_data as DramaScriptNodeDataTimeEntry; }
 		}
 
-		private void TriggerEnd()
-		{
-			InvokeOutputTrigger(0);
-		}
-
 		private float GetTime()
 		{
 			return GetInputValue(1, specificData.Time);
+		}
+
+		private void TriggerEnd()
+		{
+			InvokeOutputTrigger(2);
 		}
 	}
 }

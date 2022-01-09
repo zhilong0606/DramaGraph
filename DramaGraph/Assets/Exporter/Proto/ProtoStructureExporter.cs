@@ -234,7 +234,7 @@ namespace Tool.Export.Proto
             string csOutputFilePath = m_context.structureExportPath+ m_outputName + ".cs";
             string argStr = string.Format("--csharp_out={0} {1}", m_context.structureExportPath, protoOutputFilePath);
             string errorMsg;
-            if (!ExportUtility.RunExe("E:/projects/DramaGraph/DramaGraph/Tools/Proto/protoc", argStr, out errorMsg))
+            if (!ExportUtility.RunExe(m_context.exporterPath, argStr, out errorMsg))
             {
                 throw new Exception(errorMsg);
             }

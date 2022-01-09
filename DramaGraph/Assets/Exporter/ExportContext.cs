@@ -20,6 +20,7 @@ namespace Tool.Export
         public string ilExportPath;
         public string structureExportPath;
         public string dataExportPath;
+        public string exporterPath;
         public bool needExport;
         public Assembly assembly;
         public List<string> tagNameList = new List<string>();

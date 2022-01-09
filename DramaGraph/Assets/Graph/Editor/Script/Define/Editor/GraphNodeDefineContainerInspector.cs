@@ -109,8 +109,8 @@ namespace GraphEditor
             {
                 m_nodeDefineContainer.nodeList.Add(nodeDefine);
             }
-            list.index = m_nodeDefineContainer.nodeList.IndexOf(nodeDefine);
-            SelectNodeDefine(nodeDefine);
+            //list.index = m_nodeDefineContainer.nodeList.IndexOf(nodeDefine);
+            //SelectNodeDefine(nodeDefine);
             EditorUtility.SetDirty(m_nodeDefineContainer);
         }
 
@@ -316,8 +316,8 @@ namespace GraphEditor
                 m_inputPortDefineList.Add(portDefine);
                 m_selectedNodeDefine.portList.Add(portDefine);
             }
-            list.index = m_inputPortDefineList.IndexOf(portDefine);
-            SelectPortDefine(portDefine);
+            //list.index = m_inputPortDefineList.IndexOf(portDefine);
+            //SelectPortDefine(portDefine);
             EditorUtility.SetDirty(m_nodeDefineContainer);
         }
 
@@ -329,7 +329,7 @@ namespace GraphEditor
                 {
                     m_inputPortDefineList.Remove(m_selectedPortDefine);
                     m_selectedNodeDefine.portList.Remove(m_selectedPortDefine);
-                    SelectPortDefine(m_selectedPortDefine);
+                    SelectPortDefine(null);
                     if (m_inputPortDefineList.Count > 0)
                     {
                         list.index = Mathf.Min(list.index, m_inputPortDefineList.Count - 1);
@@ -393,8 +393,8 @@ namespace GraphEditor
                 m_outputPortDefineList.Add(portDefine);
                 m_selectedNodeDefine.portList.Add(portDefine);
             }
-            list.index = m_outputPortDefineList.IndexOf(portDefine);
-            SelectPortDefine(portDefine);
+            //list.index = m_outputPortDefineList.IndexOf(portDefine);
+            //SelectPortDefine(portDefine);
             EditorUtility.SetDirty(m_nodeDefineContainer);
         }
 

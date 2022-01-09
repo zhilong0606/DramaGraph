@@ -12,7 +12,7 @@ namespace DramaScript
 
 		protected override void OnInitInputTrigger()
 		{
-			RegisterInputTrigger(0, OnEnd);
+			RegisterInputTrigger(1, OnEnd);
 		}
 
 		partial void OnEnd();

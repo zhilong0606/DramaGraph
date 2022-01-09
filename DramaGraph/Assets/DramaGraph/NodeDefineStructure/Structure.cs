@@ -31,11 +31,12 @@ namespace DramaScript {
             "ChREcmFtYVNjcmlwdEdyYXBoRGF0YRJEChFub2RlQ29udGFpbmVyTGlzdBgB",
             "IAMoCzIpLkRyYW1hU2NyaXB0LkRyYW1hU2NyaXB0Tm9kZURhdGFDb250YWlu",
             "ZXISMgoIZWRnZUxpc3QYAiADKAsyIC5EcmFtYVNjcmlwdC5EcmFtYVNjcmlw",
-            "dEVkZ2VEYXRhIhoKGERyYW1hU2NyaXB0Tm9kZURhdGFFbnRyeSIZChdEcmFt",
-            "YVNjcmlwdE5vZGVEYXRhRXhpdCIsChxEcmFtYVNjcmlwdE5vZGVEYXRhVGlt",
-            "ZUVudHJ5EgwKBFRpbWUYASABKAIiSAogRHJhbWFTY3JpcHROb2RlRGF0YVBs",
+            "dEVkZ2VEYXRhIhoKGERyYW1hU2NyaXB0Tm9kZURhdGFFbnRyeSIsChxEcmFt",
+            "YVNjcmlwdE5vZGVEYXRhVGltZUVudHJ5EgwKBFRpbWUYASABKAIiGQoXRHJh",
+            "bWFTY3JpcHROb2RlRGF0YUV4aXQiSAogRHJhbWFTY3JpcHROb2RlRGF0YVBs",
             "YXlBbmltYXRpb24SFQoNQW5pbWF0aW9uTmFtZRgBIAEoCRINCgVTcGVlZBgC",
-            "IAEoAmIGcHJvdG8z"));
+            "IAEoAiIuCh5EcmFtYVNjcmlwdE5vZGVEYXRhU3Bhd25FZmZlY3QSDAoEUGF0",
+            "aBgBIAEoCWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -43,9 +44,10 @@ namespace DramaScript {
             new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptEdgeData), global::DramaScript.DramaScriptEdgeData.Parser, new[]{ "TypeName", "InputNodeId", "InputPortId", "OutputNodeId", "OutputPortId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptGraphData), global::DramaScript.DramaScriptGraphData.Parser, new[]{ "NodeContainerList", "EdgeList" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataEntry), global::DramaScript.DramaScriptNodeDataEntry.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataExit), global::DramaScript.DramaScriptNodeDataExit.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataTimeEntry), global::DramaScript.DramaScriptNodeDataTimeEntry.Parser, new[]{ "Time" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataPlayAnimation), global::DramaScript.DramaScriptNodeDataPlayAnimation.Parser, new[]{ "AnimationName", "Speed" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataExit), global::DramaScript.DramaScriptNodeDataExit.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataPlayAnimation), global::DramaScript.DramaScriptNodeDataPlayAnimation.Parser, new[]{ "AnimationName", "Speed" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::DramaScript.DramaScriptNodeDataSpawnEffect), global::DramaScript.DramaScriptNodeDataSpawnEffect.Parser, new[]{ "Path" }, null, null, null)
           }));
     }
     #endregion
@@ -672,95 +674,6 @@ namespace DramaScript {
 
   }
 
-  public sealed partial class DramaScriptNodeDataExit : pb::IMessage<DramaScriptNodeDataExit> {
-    private static readonly pb::MessageParser<DramaScriptNodeDataExit> _parser = new pb::MessageParser<DramaScriptNodeDataExit>(() => new DramaScriptNodeDataExit());
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DramaScriptNodeDataExit> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[4]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptNodeDataExit() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptNodeDataExit(DramaScriptNodeDataExit other) : this() {
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DramaScriptNodeDataExit Clone() {
-      return new DramaScriptNodeDataExit(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as DramaScriptNodeDataExit);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DramaScriptNodeDataExit other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      return true;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DramaScriptNodeDataExit other) {
-      if (other == null) {
-        return;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-        }
-      }
-    }
-
-  }
-
   public sealed partial class DramaScriptNodeDataTimeEntry : pb::IMessage<DramaScriptNodeDataTimeEntry> {
     private static readonly pb::MessageParser<DramaScriptNodeDataTimeEntry> _parser = new pb::MessageParser<DramaScriptNodeDataTimeEntry>(() => new DramaScriptNodeDataTimeEntry());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -768,7 +681,7 @@ namespace DramaScript {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[5]; }
+      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -872,6 +785,95 @@ namespace DramaScript {
             Time = input.ReadFloat();
             break;
           }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DramaScriptNodeDataExit : pb::IMessage<DramaScriptNodeDataExit> {
+    private static readonly pb::MessageParser<DramaScriptNodeDataExit> _parser = new pb::MessageParser<DramaScriptNodeDataExit>(() => new DramaScriptNodeDataExit());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DramaScriptNodeDataExit> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataExit() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataExit(DramaScriptNodeDataExit other) : this() {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataExit Clone() {
+      return new DramaScriptNodeDataExit(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DramaScriptNodeDataExit);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DramaScriptNodeDataExit other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DramaScriptNodeDataExit other) {
+      if (other == null) {
+        return;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
         }
       }
     }
@@ -1015,6 +1017,123 @@ namespace DramaScript {
           }
           case 21: {
             Speed = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DramaScriptNodeDataSpawnEffect : pb::IMessage<DramaScriptNodeDataSpawnEffect> {
+    private static readonly pb::MessageParser<DramaScriptNodeDataSpawnEffect> _parser = new pb::MessageParser<DramaScriptNodeDataSpawnEffect>(() => new DramaScriptNodeDataSpawnEffect());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DramaScriptNodeDataSpawnEffect> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::DramaScript.StructureReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataSpawnEffect() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataSpawnEffect(DramaScriptNodeDataSpawnEffect other) : this() {
+      path_ = other.path_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DramaScriptNodeDataSpawnEffect Clone() {
+      return new DramaScriptNodeDataSpawnEffect(this);
+    }
+
+    /// <summary>Field number for the "Path" field.</summary>
+    public const int PathFieldNumber = 1;
+    private string path_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Path {
+      get { return path_; }
+      set {
+        path_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DramaScriptNodeDataSpawnEffect);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DramaScriptNodeDataSpawnEffect other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Path != other.Path) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Path.Length != 0) hash ^= Path.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Path.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Path);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Path.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Path);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DramaScriptNodeDataSpawnEffect other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Path.Length != 0) {
+        Path = other.Path;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Path = input.ReadString();
             break;
           }
         }

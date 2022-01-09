@@ -10,11 +10,6 @@ namespace DramaScript
 		}
 
 
-		private void TriggerEnd()
-		{
-			InvokeOutputTrigger(1);
-		}
-
 		private string GetAnimationName()
 		{
 			return GetInputValue(2, specificData.AnimationName);
@@ -25,9 +20,14 @@ namespace DramaScript
 			return GetInputValue(3, specificData.Speed);
 		}
 
+		private void TriggerEnd()
+		{
+			InvokeOutputTrigger(4);
+		}
+
 		protected override void OnInitInputTrigger()
 		{
-			RegisterInputTrigger(0, OnStart);
+			RegisterInputTrigger(1, OnStart);
 		}
 
 		partial void OnStart();

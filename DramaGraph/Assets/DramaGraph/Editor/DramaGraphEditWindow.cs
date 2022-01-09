@@ -53,7 +53,7 @@ namespace GraphEditor.Drama
 
                 GraphContext context = new GraphContext();
                 context.window = this;
-                context.nodeDefinePath = "Assets/DramaGraph/NodeDefine/NodeDefines.xml";
+                context.nodeDefineContainer = DramaGraphTools.GetGraphNodeDefineContainer();
                 m_graph = new Graph<DramaGraphData, DramaGraphView>();
                 m_graph.Init(context);
                 m_graph.actionOnSaveData = OnSaveGraphData;

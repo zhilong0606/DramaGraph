@@ -27,17 +27,22 @@ message DramaScriptNodeDataEntry
 {
 }
 
-message DramaScriptNodeDataExit
-{
-}
-
 message DramaScriptNodeDataTimeEntry
 {
 	float Time = 1;
+}
+
+message DramaScriptNodeDataExit
+{
 }
 
 message DramaScriptNodeDataPlayAnimation
 {
 	string AnimationName = 1;
 	float Speed = 2;
+}
+
+message DramaScriptNodeDataSpawnEffect
+{
+	string Path = 1;
 }
