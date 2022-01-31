@@ -133,7 +133,3 @@ MonoBehaviour:
         value: 9
         m_enumName: Trigger
       defaultValue: 
-  - name: 
-    path: SkillFrame
-    idCursor: 1
-    portList: []

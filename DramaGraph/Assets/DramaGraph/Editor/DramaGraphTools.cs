@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using DramaScript;
-using Tool;
-using Tool.Export;
-using Tool.Export.Proto;
-using Tool.Export.Structure;
+using MonMooseCore;
+using MonMooseCore.DataExporter;
+using MonMooseCore.Structure;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.ProjectWindowCallback;
@@ -64,14 +63,12 @@ namespace GraphEditor.Drama
 
         private static void GenerateStructureCode(string codeAutoGenFolderPath, GraphNodeDefineContainer nodeDefineContainer)
         {
-            ExportContext context = new ExportContext();
-            context.ilExportPath = "Assets/DramaGraph/NodeDefineIl/";
-            context.structureExportPath = codeAutoGenFolderPath;
+            DataStructureExportContext context = new DataStructureExportContext();
+            context.ilExportFolderPath = "Assets/DramaGraph/NodeDefineIl/";
+            context.structureExportFolderPath = codeAutoGenFolderPath;
             context.namespaceStr = "DramaScript";
-            context.needExport = true;
-            context.extensionStr = "binary";
             context.prefixStr = "";
-            context.exporterPath = Application.dataPath.Substring(0, Application.dataPath.Length - "Assets".Length) + "Tools/Proto/protoc";
+            context.structureExporterPath = Application.dataPath.Substring(0, Application.dataPath.Length - "Assets".Length) + "Tools/Proto/protoc";
 
             ClassStructureInfo nodeContainerStructureInfo = new ClassStructureInfo("DramaScriptNodeDataContainer");
             nodeContainerStructureInfo.AddMember(context.structureManager.GetBasicStructureInfo(EBasicStructureType.Int32), "id");
@@ -116,7 +113,7 @@ namespace GraphEditor.Drama
                 context.structureManager.AddStructureInfo(structureInfo);
             }
 
-            ProtoStructureExporter exporter = new ProtoStructureExporter();
+            DataStructureExporterProto exporter = new DataStructureExporterProto();
             exporter.Export(context);
         }
 
